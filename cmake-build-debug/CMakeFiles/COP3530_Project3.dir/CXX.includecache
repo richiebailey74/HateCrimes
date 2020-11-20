@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/axdib/CLionProjects/COP3530_Project3/AVLNode.h
+vector
+-
+string
+-
+
+C:/Users/axdib/CLionProjects/COP3530_Project3/Incident.h
+
+C:/Users/axdib/CLionProjects/COP3530_Project3/RBNode.h
+vector
+-
+string
+-
+
+C:/Users/axdib/CLionProjects/COP3530_Project3/main.cpp
+iostream
+-
+fstream
+-
+unordered_map
+-
+RBNode.h
+C:/Users/axdib/CLionProjects/COP3530_Project3/RBNode.h
+AVLNode.h
+C:/Users/axdib/CLionProjects/COP3530_Project3/AVLNode.h
+Incident.h
+C:/Users/axdib/CLionProjects/COP3530_Project3/Incident.h
+
