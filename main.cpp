@@ -2,9 +2,12 @@
 #include <fstream>
 #include <set>
 #include <unordered_map>
+#include <chrono>
+#include <iomanip>
 #include "RBNode.h"
 #include "AVLNode.h"
 #include "Incident.h"
+typedef std::chrono::high_resolution_clock timer;
 using namespace std;
 int reformatDate(string str) {
     //this function will change the format of DD-MON-YYYY to YYYYMMDD
@@ -103,7 +106,28 @@ void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unorde
 
 }
 
+void initializeMaps(unordered_map<string, AVLNode*>& AVLMap, unordered_map<string, RBNode*>& RBMap) {
+    //this function will initialize the state maps for both AVL and RB trees
+    
+    //create an array of states
+    string stateArr[] = { "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+                        "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+                        "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                        "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+                        "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
+                        "Wisconsin", "Wyoming" };
+    
+    //initialize the maps to hold the states as the keys
+    for(int i = 0; i < stateArr.length(); i++) {
+        AVLMap[stateArr[i]] = nullptr;
+        RBMap[stateArr[i]] = nullptr;
+    }
+}
+
 int main() {
+    //timer variable
+    typedef std::chrono::high_resolution_clock timer;
+    
     //menu boolean values
     int input;
     
@@ -116,7 +140,9 @@ int main() {
     //set up the unordered map data structure
     unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     unordered_map<string, AVLNode*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
+    initializeMaps();
 
+    
     //create a red black tree root
     RBNode* RBroot = new RBNode;
     //create an AVL tree root
@@ -171,9 +197,22 @@ int main() {
                 quit = true;
                 inputValid = false;
             }
-            
-
         }
+        
+        //Adding beginning and end timers for each tree
+        
+        auto startAVL = timer::now();
+        //build AVl tree                                                                                                                                                                                                                                                                                                                                                                                  
+        auto endAVL = timer::now();
+        chrono::duration<double> elapsedTime = endAVL - startAVL;
+        cout << setprecision(5) << "Time taken to build AVL tree " << elapsedTime.count() << setprecision(5) << " seconds" << endl;
+
+        auto startRB = timer::now();
+        //build RB tree
+        auto endRB = timer::now();
+        elapsedTime = endRB - startRB;
+        cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
+
 
         if (inputValid) {
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
