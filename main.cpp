@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <set>
 #include <unordered_map>
 #include "RBNode.h"
 #include "AVLNode.h"
@@ -74,12 +75,53 @@ bool checkState(string input) {
     return true;
 }
 
+void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unordered_map<string, AVLNode*> avlMap) {
+
+    //the first 28 lines of input are the column headers which we have no use for so just skip over them
+    string firstRow;
+    getline(file, firstRow);
+
+
+    //this loop will visit each row of the csv file until the file has ended
+    string state;
+    for (int i = 1; i <= 8; i++) {
+        //this loop will loop through the unnecessary data columns until it reaches the state name column
+        getline(file, state, ',');
+    }
+
+    string date_str;
+    for (int i = 1; i <= 7; i++) {
+        //this loop will loop through the unnecessary data columns until it reaches the date column
+        getline(file, date_str, ',');
+    }
+
+    //reformat the date string from the CSV file to have the format of YYYYMMDD
+    int date = reformatDate(date_str);
+
+    //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
+    Incident newIncident(state, date);
+
+}
+
 int main() {
     //menu boolean values
     int input;
-    string stateInput;
-    bool isRBTree = false;
+    
     bool valid = false;
+
+    //initialize the hate crime data file
+    ifstream file("hate_crime.csv");
+    int treeSize = 0;
+
+    //set up the unordered map data structure
+    unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
+    unordered_map<string, AVLNode*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
+
+    //create a red black tree root
+    RBNode* RBroot = new RBNode;
+    //create an AVL tree root
+    AVLNode* AVLroot = new AVLNode;
+    
     //Program introduction
     cout << "Welcome to the Hate Crime dataset! This program allows the user to analyze hate crime incidents";
     cout << " recorded by the FBI from 1991 to 2018. This program allows users to parse the data by";
@@ -88,103 +130,96 @@ int main() {
     cout << " data structure or an AVL tree data structure, based on the user's discretion.";
     cout << " Thank you and happy parsing!" << endl;
 
-    while (!valid) {
-        //Type of tree menu
-        cout << "Please select a self-balancing tree data structure to parse: " << endl;
-        cout << "1. Red-Black Tree" << endl;
-        cout << "2. AVL Tree" << endl;
-        cin >> input;
 
-        if (input == 1 || input == 2) {
-            valid = true;
-            continue;
-        }
-        cout << "Error: Invalid input." << endl;
-    }
-    if (input == 1) {
-        isRBTree = true;
-    }
-
-    //reset valid bool
-    valid = false;
-    while (!valid) {
-        //Number of states menu (//TODO: I don't think we need two menu options here)
+    //menu function to print
+    bool quit = false;
+    string stateInput = "";
+    int index = 0;
+    
+    while (!quit) {
+        //menu function call
+        //take in comma separated state list
         cout << "Please input the names of the states you would like to conduct your search with.";
-        cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia";
-        cin >> stateInput;
+        cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
+        bool inputValid = true;
+        set<string> searchStates;
+        
+        getline(cin, stateInput);
+        string state = "";
 
-        if (checkState(stateInput)) {
-            //the input is valid
-            valid = true;
-            break;
+        while(inputValid && stateInput != "") {
+            state = stateInput.substr(0, stateInput.find(','));
+            if (stateInput.find(',') == string::npos) {
+                stateInput = "";
+            }
+            else {
+                stateInput = stateInput.substr(stateInput.find(',') + 2);
+            }
+                    
+            if (checkState(stateInput)) {
+                //cout << ++index << ". " << state << endl;
+                searchStates.insert(stateInput);
+            }
+            else {
+                inputValid = false;
+                //empty searchStates
+                searchStates.clear();
+                //call error statement
+
+            }
+            if (state == "quit") {
+                quit = true;
+                inputValid = false;
+            }
+            
+
         }
-        cout << "Error: Invalid input." << endl;
+
+        if (inputValid) {
+            for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                //This is where we will do our statistical analysis
+            }
+
+            cout << "Would you like to compare two specific states? (Y/N)" << endl;
+
+            string compare = "";
+
+            cin >> compare;
+            
+            if (compare == "Y" || compare == "y") {
+                string state1;
+                string state2;
+                cout << "Enter State 1: ";
+                cin >> state1;
+                cout << endl << "Enter State 2: ";
+                cin >> state2;
+                cout << endl;
+
+                if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
+                    //compare these two specific states
+                }
+                else {
+                    cout << "Error: The two selected states were not a part of the current analysis." << endl;
+                }
+
+
+            }
+           
+
+            cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
+            cin >> compare;
+
+            if (compare == "Y" || compare == "y") {
+               //write output file here
+            }
+        }
+        
+
+        
     }
+    
 
 
-    //initialize the hate crime data file
-    ifstream file("hate_crime.csv");
-    int treeSize = 0;
-
-    //create a red black tree root
-    RBNode* RBroot = new RBNode;
-    //create an AVL tree root
-    AVLNode* AVLroot = new AVLNode;
-
-    //set up the unordered map data structure
-    unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYMMDD)
-    unordered_map<string, AVLNode*> AVLMap; //nodes are dates (identifier form: YYYMMDD)
-
-
-    //the first 28 lines of input are the column headers which we have no use for so just skip over them
-    string firstRow;
-    getline(file, firstRow);
-
-    //while(input.good()) { TODO: UNCOMMENT
-        //this loop will visit each row of the csv file until the file has ended
-        string state;
-        for (int i = 1; i <= 8; i++) {
-            //this loop will loop through the unnecessary data columns until it reaches the state name column
-            getline(file, state, ',');
-        }
-
-        string date_str;
-        for (int i = 1; i <= 7; i++) {
-            //this loop will loop through the unnecessary data columns until it reaches the date column
-            getline(file, date_str, ',');
-        }
-
-        //reformat the date string from the CSV file to have the format of YYYYMMDD
-        int date = reformatDate(date_str);
-
-        //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-        Incident newIncident(state, date);
-
-        if (isRBTree) {
-            //if the tree specified by the user was a Red Black Tree
-
-            //Make a RB node with this new incident or add it to an existing date's vector
-            //TODO RBroot = RBroot->insert();
-
-            //check if the state has been added to the RBMap or AVLMap
-            if (RBMap.find(state) == RBMap.end()) {
-                treeSize++;
-                RBMap[state] = RBroot;
-            }
-        } else {
-            //if the tree specified by the user was an AVL tree
-
-            //Make an AVL node with this new incident or add it to an existing date's vector
-            AVLroot = AVLroot->insert(AVLroot, date, newIncident);
-
-            //check if the state has been added to the RBMap or AVLMap
-            if (AVLMap.find(state) == AVLMap.end()) {
-                treeSize++;
-                AVLMap[state] = AVLroot;
-            }
-        }
-
-    //}
 
     return 0;
 }
