@@ -198,17 +198,39 @@ int main() {
                 inputValid = false;
             }
         }
-        
-        //Adding beginning and end timers for each tree
-        
+        //building AVL tree with csv data
         auto startAVL = timer::now();
-        //build AVl tree                                                                                                                                                                                                                                                                                                                                                                                  
+        //Build trees for the states specified by looping through the csv file
+        
+        //search the file, check if the state was specified by the user
+        while(!file.EOF()) {
+            
+            //check if the state is in the searchStates vector (move to next row)
+            
+            //reformat date
+            
+            //create new incident object
+            
+            //pass into check function (check if date is there, push back. if date is not there, add new node)
+                //if true, find existing tree node and push to vector
+                //if false, insert a new node and start rotations from there (push back vector too)
+            
+            
+        }                                                                                                                                                                                                                                                                                                                                                                                
         auto endAVL = timer::now();
         chrono::duration<double> elapsedTime = endAVL - startAVL;
         cout << setprecision(5) << "Time taken to build AVL tree " << elapsedTime.count() << setprecision(5) << " seconds" << endl;
 
+        //building RB tree with AVL data
         auto startRB = timer::now();
-        //build RB tree
+        //Build trees for the states specified by looping through the csv file
+        
+        //search the file, check if the state was specified by the user
+        
+        //add a node or push to a vector
+        
+        
+        //Adding beginning and end timers for each tree
         auto endRB = timer::now();
         elapsedTime = endRB - startRB;
         cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
