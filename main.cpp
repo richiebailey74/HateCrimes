@@ -64,21 +64,24 @@ int reformatDate(string str) {
     return stoi(date);
 }
 
-bool checkState(string input) {
+bool checkState(string stateArr[], string input) {
     //this function checks the validity of the input of the states
+
+    //convert all the letters in the input to lowercase
     for (int i = 0; i < input.length(); i++) {
-        if (isdigit(input.at(i))) {
-            return false;
-        }
+        input.at(i) = tolower(input.at(i));
     }
 
-    //TODO also have to check if the state is in an ENUM or something?
-    //input.at(i) = tolower(input.at(i));
-    //TODO then we would have to add each state to some sort of vector I think and like parse the string input
-    return true;
+    for (int i = 0; i < stateArr->length(); i++) {
+        //checks if input equals one of the states in the array
+        if (input == stateArr[i]) {
+            return true;
+        }
+    }
+    return false;
 }
 
-void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unordered_map<string, AVLNode*> avlMap) {
+/*void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unordered_map<string, AVLNode*> avlMap) {
 
     //the first 28 lines of input are the column headers which we have no use for so just skip over them
     string firstRow;
@@ -104,21 +107,13 @@ void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unorde
     //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
     Incident newIncident(state, date);
 
-}
+} */
 
-void initializeMaps(unordered_map<string, AVLNode*>& AVLMap, unordered_map<string, RBNode*>& RBMap) {
+void initializeMaps(string stateArr[], unordered_map<string, AVLNode*>& AVLMap, unordered_map<string, RBNode*>& RBMap) {
     //this function will initialize the state maps for both AVL and RB trees
-    
-    //create an array of states
-    string stateArr[] = { "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-                        "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
-                        "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-                        "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
-                        "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
-                        "Wisconsin", "Wyoming" };
-    
+
     //initialize the maps to hold the states as the keys
-    for(int i = 0; i < stateArr.length(); i++) {
+    for(int i = 0; i < stateArr->length(); i++) {
         AVLMap[stateArr[i]] = nullptr;
         RBMap[stateArr[i]] = nullptr;
     }
@@ -128,9 +123,17 @@ int main() {
     //timer variable
     typedef std::chrono::high_resolution_clock timer;
     
+    //create an array of states
+    string stateArr[] = { "alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia",
+                          "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts",
+                          "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey",
+                          "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island",
+                          "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia",
+                          "wisconsin", "wyoming" };
+
     //menu boolean values
     int input;
-    
+
     bool valid = false;
 
     //initialize the hate crime data file
@@ -138,9 +141,9 @@ int main() {
     int treeSize = 0;
 
     //set up the unordered map data structure
-    unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     unordered_map<string, AVLNode*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
-    initializeMaps();
+    unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
+    initializeMaps(stateArr, AVLMap, RBMap);
 
     
     //create a red black tree root
@@ -182,8 +185,7 @@ int main() {
                 stateInput = stateInput.substr(stateInput.find(',') + 2);
             }
                     
-            if (checkState(stateInput)) {
-                //cout << ++index << ". " << state << endl;
+            if (checkState(stateArr, stateInput)) {
                 searchStates.insert(stateInput);
             }
             else {
@@ -198,18 +200,47 @@ int main() {
                 inputValid = false;
             }
         }
+        
         //building AVL tree with csv data
         auto startAVL = timer::now();
-        //Build trees for the states specified by looping through the csv file
         
-        //search the file, check if the state was specified by the user
-        while(!file.EOF()) {
+        //the first 28 lines of input are the column headers which we have no use for so just skip over them
+        string blank;
+        getline(file, blank);
+        
+        while(!file.eof()) {
+            //this loop will visit each row of the csv file until the file has ended
+            string state;
+            for (int i = 1; i <= 8; i++) {
+                //this loop will loop through the unnecessary data columns until it reaches the state name column
+                getline(file, state, ',');
+            }
             
+            bool found = false;
             //check if the state is in the searchStates vector (move to next row)
-            
-            //reformat date
-            
-            //create new incident object
+            for (int i = 0; i < searchStates.size(); i++) {
+                if (searchStates.find(state) != searchStates.end()) {
+                    //if the state has been specified
+                    found = true;
+                }
+            }
+            if (!found) {
+                //if the current state was not found in the searchStates vector, move onto next row
+                getline(file, blank);
+                continue;
+            }
+
+            string date_str;
+            for (int i = 1; i <= 7; i++) {
+                //this loop will loop through the unnecessary data columns until it reaches the date column
+                getline(file, date_str, ',');
+            }
+
+            //reformat the date string from the CSV file to have the format of YYYYMMDD
+            int date = reformatDate(date_str);
+
+            //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
+            Incident newIncident(state, date);
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
                 //if true, find existing tree node and push to vector
@@ -221,16 +252,57 @@ int main() {
         chrono::duration<double> elapsedTime = endAVL - startAVL;
         cout << setprecision(5) << "Time taken to build AVL tree " << elapsedTime.count() << setprecision(5) << " seconds" << endl;
 
-        //building RB tree with AVL data
+        //building RB tree with csv data
+        
+        //reset the ifstream file object
+        file.clear();
+        file.seekg(0, ios::beg);
+        
         auto startRB = timer::now();
-        //Build trees for the states specified by looping through the csv file
         
-        //search the file, check if the state was specified by the user
+        //the first 28 lines of input are the column headers which we have no use for so just skip over them
+        getline(file, blank);
         
-        //add a node or push to a vector
-        
-        
-        //Adding beginning and end timers for each tree
+        while(!file.eof()) {
+            //this loop will visit each row of the csv file until the file has ended
+            string state;
+            for (int i = 1; i <= 8; i++) {
+                //this loop will loop through the unnecessary data columns until it reaches the state name column
+                getline(file, state, ',');
+            }
+            
+            bool found = false;
+            //check if the state is in the searchStates vector (move to next row)
+            for (int i = 0; i < searchStates.size(); i++) {
+                if (searchStates.find(state) != searchStates.end()) {
+                    //if the state has been specified
+                    found = true;
+                }
+            }
+            if (!found) {
+                //if the current state was not found in the searchStates vector, move onto next row
+                getline(file, blank);
+                continue;
+            }
+
+            string date_str;
+            for (int i = 1; i <= 7; i++) {
+                //this loop will loop through the unnecessary data columns until it reaches the date column
+                getline(file, date_str, ',');
+            }
+
+            //reformat the date string from the CSV file to have the format of YYYYMMDD
+            int date = reformatDate(date_str);
+
+            //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
+            Incident newIncident(state, date);
+            
+            //pass into check function (check if date is there, push back. if date is not there, add new node)
+                //if true, find existing tree node and push to vector
+                //if false, insert a new node and start rotations from there (push back vector too)
+            
+            
+        }                           
         auto endRB = timer::now();
         elapsedTime = endRB - startRB;
         cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
