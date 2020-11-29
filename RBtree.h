@@ -24,14 +24,14 @@ private:
 	bool isRed(treenode* node);
 	bool isBlack(treenode* node);
 	bool compareTreenodes(treenode* N1, treenode* N2);
-	void traversalIncidentDate(treenode* currentnode, int incidentToAdd, bool& searchSuccess);
+	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
 
 public:
 	RBtree();
 	void insertNode(int val);
 	void inOrder();
 	void levelOrder();
-	bool searchAddIncident(int incidentToAdd); //will change to incident instead but has similar functionality
+	bool searchAddIncident(int date, Incident* incidentToAdd); //will change to incident instead but has similar functionality
 
 };
 
