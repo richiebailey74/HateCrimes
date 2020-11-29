@@ -31,7 +31,7 @@ public:
 	void insertNode(int val);
 	void inOrder();
 	void levelOrder();
-	bool searchAddIncident(int date, Incident* incidentToAdd); //will change to incident instead but has similar functionality
+	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
 
 };
 
