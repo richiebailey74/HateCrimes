@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <chrono>
 #include <iomanip>
+#include "treenode.h"
+#include "treeNode.h"
 #include "RBtree.h"
 #include "AVLtree.h"
 #include "Incident.h"
@@ -242,7 +244,7 @@ int main() {
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             //Incident newIncident(state, date); //not sure what this initialization is lol
             
-            Incident* incident = new Incident(state, date);
+            Incident* incident = new Incident(state, date); //will work as long as the state name and date are extracted correctly
             
             //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
             
