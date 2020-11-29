@@ -240,7 +240,9 @@ int main() {
             int date = reformatDate(date_str);
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-            Incident newIncident(state, date);
+            //Incident newIncident(state, date); //not sure what this initialization is lol
+            
+            Incident* incident = new Incident(state, date);
             
             //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
             
@@ -298,7 +300,10 @@ int main() {
             int date = reformatDate(date_str);
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-            Incident newIncident(state, date);
+            //Incident newIncident(state, date);
+            
+            
+            Incident* incident = new Incident(state, date);
             
             
             //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
