@@ -1,5 +1,6 @@
 #pragma once
 #include "treeNode.h"
+#include "Incident.h"
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -21,7 +22,7 @@ private:
 	void inOrderRecursive(treeNode* currentnnode);
 	void levelOrderRecursive(treeNode* currentnode);
 	int BF(treeNode* node);
-	void traversalIncidentDate(treeNode* currentnode, int incidentToAdd, bool& searchSuccess);
+	void traversalIncidentDate(treeNode* currentnode, Incident* incidentToAdd, bool& searchSuccess); //might need to add a date
 	//add away functions to abstract away functionality later
 
 
@@ -30,6 +31,6 @@ public:
 	void insertNode(int val);
 	void inOrder();
 	void levelOrder();
-	bool searchAddIncident(int incidentToAdd);
+	bool searchAddIncident(Incident* incidentToAdd);
 };
 
