@@ -28,7 +28,7 @@ private:
 
 public:
 	AVLtree();
-	void insertNode(int val);
+	void insertNode(int val, Incident* incident);
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd);
