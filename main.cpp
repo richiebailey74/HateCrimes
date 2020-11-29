@@ -109,7 +109,7 @@ bool checkState(string stateArr[], string input) {
 
 } */
 
-void initializeMaps(string stateArr[], unordered_map<string, AVLNode*>& AVLMap, unordered_map<string, RBNode*>& RBMap) {
+void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, unordered_map<string, RBtree*>& RBMap) {
     //this function will initialize the state maps for both AVL and RB trees
 
     //initialize the maps to hold the states as the keys
@@ -141,15 +141,15 @@ int main() {
     int treeSize = 0;
 
     //set up the unordered map data structure
-    unordered_map<string, AVLNode*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
-    unordered_map<string, RBNode*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
+    unordered_map<string, AVLtree*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
+    unordered_map<string, RBtree*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     initializeMaps(stateArr, AVLMap, RBMap);
 
-    
+    //why are these objects here? or am i just dumb **********
     //create a red black tree root
-    RBNode* RBroot = new RBNode;
+    RBtree* RBTREE = new RBtree;
     //create an AVL tree root
-    AVLNode* AVLroot = new AVLNode;
+    AVLtree* AVLTREE = new AVLtree;
     
     //Program introduction
     cout << "Welcome to the Hate Crime dataset! This program allows the user to analyze hate crime incidents";
@@ -242,6 +242,9 @@ int main() {
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             Incident newIncident(state, date);
             
+            //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
+            
+            
             //pass into check function (check if date is there, push back. if date is not there, add new node)
                 //if true, find existing tree node and push to vector
                 //if false, insert a new node and start rotations from there (push back vector too)
@@ -296,6 +299,11 @@ int main() {
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             Incident newIncident(state, date);
+            
+            
+            //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
+            
+            
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
                 //if true, find existing tree node and push to vector
