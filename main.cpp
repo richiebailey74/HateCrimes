@@ -147,7 +147,8 @@ int main() {
     unordered_map<string, RBtree*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     initializeMaps(stateArr, AVLMap, RBMap);
 
-    //why are these objects here? or am i just dumb **********
+    //if we're going to be adding multiple trees to the map, I'm pretty sure we'll have to move these declaration but I'm not entirely sure how the interface works
+    //we might need another loop if they're going to be inserting multiple states so we can have separate tree objects
     //create a red black tree root
     RBtree* RBTREE = new RBtree;
     //create an AVL tree root
@@ -244,13 +245,17 @@ int main() {
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             //Incident newIncident(state, date); //not sure what this initialization is lol
             
-            Incident* incident = new Incident(state, date); //will work as long as the state name and date are extracted correctly
+            Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
             
-            //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
+            bool incidentPresent = AVLTREE->searchAddIncident(incidentObj1);
+            
+            if(incidentPresent == false) {
+                AVLTREE->insertNode(incidentObj1->date, incidentObj1);
+            }
             
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
-                //if true, find existing tree node and push to vector
+                //if true, find existing tree node and push to vector (does in the search function automatically)
                 //if false, insert a new node and start rotations from there (push back vector too)
             
             
@@ -305,15 +310,18 @@ int main() {
             //Incident newIncident(state, date);
             
             
-            Incident* incident = new Incident(state, date);
+            Incident* incidentObj2 = new Incident(state, date);
             
+            bool incidentPresent = RBTREE->searchAddIncident(incidentObj2);
             
-            //DO SHIT HERE WITH THIS INCIDENT OBJECT **************************
+            if(incidentPresent == false) {
+                RBTREE->insertNode(incidentObj2->date, incidentObj2);
+            }
             
             
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
-                //if true, find existing tree node and push to vector
+                //if true, find existing tree node and push to vector (done in search functionality if appliceable)
                 //if false, insert a new node and start rotations from there (push back vector too)
             
             
