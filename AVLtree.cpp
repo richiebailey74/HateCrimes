@@ -144,9 +144,10 @@ treeNode* AVLtree::treeInsert(treeNode* currentnode, treeNode* insertnode) {
 	return currentnode;
 }
 
-void AVLtree::insertNode(int val) { //this is the date
+void AVLtree::insertNode(int val, Incident* incident) { //this is the date
 	treeNode* newVal = new treeNode(val);
-
+	newVal->incidentsContainer.push_back(incident);
+	
 	root = treeInsert(root, newVal); //might have to pass an incident as well, not sure yet
 }
 
