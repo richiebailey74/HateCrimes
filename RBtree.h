@@ -28,7 +28,7 @@ private:
 
 public:
 	RBtree();
-	void insertNode(int val);
+	void insertNode(int val, Incident* incident);
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
