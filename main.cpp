@@ -263,10 +263,6 @@ int main() {
             int date = reformatDate(date_str);
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-            //Incident newIncident(state, date); //not sure what this initialization is lol
-            
-            
-            
             Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
             
             bool incidentPresent = AVLTREE->searchAddIncident(incidentObj1);
@@ -328,11 +324,6 @@ int main() {
             int date = reformatDate(date_str);
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-            //Incident newIncident(state, date);
-            
-            
-            
-            
             Incident* incidentObj2 = new Incident(state, date);
             
             bool incidentPresent = RBTREE->searchAddIncident(incidentObj2);
@@ -396,14 +387,7 @@ int main() {
                 outputFile.open(fileName + ".csv");
                 //need to know structural of analysis to design the structure of the csv file
             }
-        }
-        
-
-        
+        }  
     }
-    
-
-
-
     return 0;
 }
