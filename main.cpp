@@ -245,6 +245,8 @@ int main() {
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             //Incident newIncident(state, date); //not sure what this initialization is lol
             
+            
+            
             Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
             
             bool incidentPresent = AVLTREE->searchAddIncident(incidentObj1);
@@ -252,7 +254,6 @@ int main() {
             if(incidentPresent == false) {
                 AVLTREE->insertNode(incidentObj1->date, incidentObj1);
             }
-            
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
                 //if true, find existing tree node and push to vector (does in the search function automatically)
@@ -310,6 +311,8 @@ int main() {
             //Incident newIncident(state, date);
             
             
+            
+            
             Incident* incidentObj2 = new Incident(state, date);
             
             bool incidentPresent = RBTREE->searchAddIncident(incidentObj2);
@@ -317,8 +320,6 @@ int main() {
             if(incidentPresent == false) {
                 RBTREE->insertNode(incidentObj2->date, incidentObj2);
             }
-            
-            
             
             //pass into check function (check if date is there, push back. if date is not there, add new node)
                 //if true, find existing tree node and push to vector (done in search functionality if appliceable)
