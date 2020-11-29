@@ -12,7 +12,6 @@ private:
 	void leftRotation(treenode*& root, treenode*& currentnode);
 	void rightRotation(treenode*& root, treenode*& currentnode);
 	void imbalanceFix(treenode*& root, treenode*& currentnode);
-	bool searchAddIncident(int incidentToAdd); //will change to incident instead but has similar functionality
 
 	//helper functions
 	treenode* treeInsert(treenode* root, treenode* currentnode);
@@ -31,6 +30,7 @@ public:
 	void insertNode(int val);
 	void inOrder();
 	void levelOrder();
+	bool searchAddIncident(int incidentToAdd); //will change to incident instead but has similar functionality
 
 };
 
