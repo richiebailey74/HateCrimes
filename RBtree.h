@@ -1,5 +1,6 @@
 #pragma once
 #include "treenode.h"
+#include "Incident.h"
 #include <iostream>
 #include <queue>
 #include <vector>
