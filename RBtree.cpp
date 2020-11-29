@@ -239,9 +239,10 @@ void RBtree::imbalanceFix(treenode*& root, treenode*& currentnode) {
 		root->color = true;
 }
 
-void RBtree::insertNode(int val) {
+void RBtree::insertNode(int val, Incident* incident) {
 	treenode* newVal = new treenode(val);
-
+	newVal->incidentsContainer.push_back(incident);
+	
 	root = treeInsert(root, newVal);
 
 	imbalanceFix(root, newVal);
