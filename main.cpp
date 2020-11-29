@@ -9,6 +9,7 @@
 #include "RBtree.h"
 #include "AVLtree.h"
 #include "Incident.h"
+#include <string>
 typedef std::chrono::high_resolution_clock timer;
 using namespace std;
 int reformatDate(string str) {
@@ -203,6 +204,25 @@ int main() {
                 inputValid = false;
             }
         }
+        int startDate;
+        int endDate;
+        string rangeChoice = "";
+        cin >> rangeChoice;
+        if (rangeChoice == "Y" || rangeChoice == "y") {
+            //Lets them pick their own dates
+            cout << "Please enter the start date in the format DD-MM-YYYY: " << endl;
+            string start;
+            cin >> start;
+            startDate = reformatDate(start);
+            cout << "Please enter the end date in the format DD-MM-YYYY: " << endl;
+            string end;
+            cin >> end;
+            end = reformatDate(end);
+        }
+        else {
+            startDate = 19910101;
+            endDate = 20183112;
+        }
         
         //building AVL tree with csv data
         auto startAVL = timer::now();
@@ -263,7 +283,7 @@ int main() {
         }                                                                                                                                                                                                                                                                                                                                                                                
         auto endAVL = timer::now();
         chrono::duration<double> elapsedTime = endAVL - startAVL;
-        cout << setprecision(5) << "Time taken to build AVL tree " << elapsedTime.count() << setprecision(5) << " seconds" << endl;
+        cout << setprecision(5) << "Time taken to build AVL tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
 
         //building RB tree with csv data
         
@@ -331,10 +351,10 @@ int main() {
         elapsedTime = endRB - startRB;
         cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
 
-
         if (inputValid) {
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                 //This is where we will do our statistical analysis
+                //This needs to be stored in a data structure so that it can be written to an output file afterwards
             }
 
             cout << "Would you like to compare two specific states? (Y/N)" << endl;
@@ -354,6 +374,7 @@ int main() {
 
                 if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
                     //compare these two specific states
+                    
                 }
                 else {
                     cout << "Error: The two selected states were not a part of the current analysis." << endl;
@@ -367,7 +388,13 @@ int main() {
             cin >> compare;
 
             if (compare == "Y" || compare == "y") {
-               //write output file here
+                ofstream outputFile;
+                cout << "What would you like to name the file? ";
+                string fileName;
+                cin >> fileName;
+
+                outputFile.open(fileName + ".csv");
+                //need to know structural of analysis to design the structure of the csv file
             }
         }
         
