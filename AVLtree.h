@@ -13,7 +13,6 @@ private:
 	treeNode* rightRotation(treeNode*& currentnode);
 	treeNode* leftRightRotation(treeNode*& currentnode);
 	treeNode* rightLeftRotation(treeNode*& currentnode);
-	bool searchAddIncident(int incidentToAdd);
 
 	//helper functions
 	void updateHeight(treeNode* node);
@@ -31,5 +30,6 @@ public:
 	void insertNode(int val);
 	void inOrder();
 	void levelOrder();
+	bool searchAddIncident(int incidentToAdd);
 };
 
