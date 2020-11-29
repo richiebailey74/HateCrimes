@@ -1,4 +1,5 @@
 #include "AVLtree.h"
+#include "Incident.h"
 
 
 AVLtree::AVLtree() {
@@ -36,9 +37,9 @@ void AVLtree::levelOrderRecursive(treeNode* currentnode) {
 	}
 }
 
-void AVLtree::traversalIncidentDate(treeNode* currentnode, int incidentToAdd, bool& searchSuccess) {
+void AVLtree::traversalIncidentDate(treeNode* currentnode, Incident* incidentToAdd, bool& searchSuccess) {
 	if (currentnode != NULL) {
-		if (currentnode->date == incidentToAdd) {
+		if (currentnode->date == incidentToAdd->date) {
 			searchSuccess = true;
 			currentnode->incidentsContainer.push_back(incidentToAdd);
 		}
@@ -48,7 +49,7 @@ void AVLtree::traversalIncidentDate(treeNode* currentnode, int incidentToAdd, bo
 }
 
 
-bool AVLtree::searchAddIncident(int incidentToAdd) {
+bool AVLtree::searchAddIncident(Incident* incidentToAdd) {
 	bool searchSuccess = false;
 	traversalIncidentDate(root, incidentToAdd, searchSuccess);
 	return searchSuccess;
