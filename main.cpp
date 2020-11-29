@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <chrono>
 #include <iomanip>
-#include "RBNode.h"
-#include "AVLNode.h"
+#include "RBtree.h"
+#include "AVLtree.h"
 #include "Incident.h"
 typedef std::chrono::high_resolution_clock timer;
 using namespace std;
