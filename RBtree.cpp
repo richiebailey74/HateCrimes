@@ -52,9 +52,9 @@ void RBtree::levelOrderRecursive(treenode* currentnode) {
 
 }
 
-void RBtree::traversalIncidentDate(treenode* currentnode, int incidentToAdd, bool& searchSuccess) {
+void RBtree::traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess) {
 	if (currentnode) {
-		if (currentnode->date == incidentToAdd) { //will be the incident's date (or the date passed in)
+		if (currentnode->date == incidentToAdd->date) { //will be the incident's date (or the date passed in)
 			searchSuccess = true;
 			currentnode->incidentsContainer.push_back(incidentToAdd);
 
@@ -64,7 +64,7 @@ void RBtree::traversalIncidentDate(treenode* currentnode, int incidentToAdd, boo
 	}
 }
 
-bool RBtree::searchAddIncident(int incidentToAdd) {
+bool RBtree::searchAddIncident(Incident* incidentToAdd) {
 	bool searchSuccess = false;
 	traversalIncidentDate(root, incidentToAdd, searchSuccess);
 	return searchSuccess;
