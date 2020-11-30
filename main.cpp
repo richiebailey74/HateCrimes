@@ -234,7 +234,7 @@ int main() {
             cout << "Please enter the end date in the format DD-MM-YYYY: " << endl;
             string end;
             cin >> end;
-            end = reformatUserDate(end);
+            endDate = reformatUserDate(end);
         }
         else {
             startDate = 19910101;
@@ -250,7 +250,6 @@ int main() {
         
         while(!file.eof()) {
             //this loop will visit each row of the csv file until the file has ended
-            string state;
             for (int i = 1; i <= 8; i++) {
                 //this loop will loop through the unnecessary data columns until it reaches the state name column
                 getline(file, state, ',');
@@ -278,6 +277,12 @@ int main() {
 
             //reformat the date string from the CSV file to have the format of YYYYMMDD
             int date = reformatDate(date_str);
+            
+            if (date < startDate || date > endDate) {
+                //date is out of range
+                getline(file, blank);
+                continue;
+            }
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
@@ -339,6 +344,12 @@ int main() {
 
             //reformat the date string from the CSV file to have the format of YYYYMMDD
             int date = reformatDate(date_str);
+            
+            if (date < startDate || date > endDate) {
+                //date is out of range
+                getline(file, blank);
+                continue;
+            }
 
             //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
             Incident* incidentObj2 = new Incident(state, date);
