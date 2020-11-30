@@ -49,7 +49,7 @@ int reformatDate(string str) {
     } else if (month == "dec") {
         month = "12";
     } else {
-        cout << "WARNING: Not a valid month. See main.cpp, reformatDate()" << endl;
+        cout << "WARNING: Not a valid month." << endl;
     }
 
     string year_temp = str.substr(7);
@@ -62,6 +62,23 @@ int reformatDate(string str) {
     } else {
         year = twenty + year_temp;
     }
+
+    date = year + month + day;
+    return stoi(date);
+}
+
+int reformatUserDate(string str) {
+    //this function will change the format of DD-MM-YYYY to YYYYMMDD
+    string date;
+    //segment the string into day, month, and year
+    string day = str.substr(0, 2);
+    cout << "day is " << day << endl;
+    string month = str.substr(3, 2);
+    cout << "month is " << month << endl;
+    string year = str.substr(6);
+    cout << "year is " << year << endl;
+    string twenty = "20";
+    string nineteen = "19";
 
     date = year + month + day;
     return stoi(date);
@@ -213,11 +230,11 @@ int main() {
             cout << "Please enter the start date in the format DD-MM-YYYY: " << endl;
             string start;
             cin >> start;
-            startDate = reformatDate(start);
+            startDate = reformatUserDate(start);
             cout << "Please enter the end date in the format DD-MM-YYYY: " << endl;
             string end;
             cin >> end;
-            end = reformatDate(end);
+            end = reformatUserDate(end);
         }
         else {
             startDate = 19910101;
