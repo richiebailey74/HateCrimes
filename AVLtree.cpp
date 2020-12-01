@@ -42,6 +42,7 @@ void AVLtree::traversalIncidentDate(treeNode* currentnode, Incident* incidentToA
 		if (currentnode->date == incidentToAdd->date) {
 			searchSuccess = true;
 			currentnode->incidentsContainer.push_back(incidentToAdd);
+			treeSize++;
 		}
 		traversalIncidentDate(currentnode->left, incidentToAdd, searchSuccess);
 		traversalIncidentDate(currentnode->right, incidentToAdd, searchSuccess);
@@ -147,6 +148,7 @@ treeNode* AVLtree::treeInsert(treeNode* currentnode, treeNode* insertnode) {
 void AVLtree::insertNode(int val, Incident* incident) { //this is the date
 	treeNode* newVal = new treeNode(val);
 	newVal->incidentsContainer.push_back(incident);
+	treeSize++;
 	
 	root = treeInsert(root, newVal); //might have to pass an incident as well, not sure yet
 }
@@ -157,5 +159,9 @@ void AVLtree::inOrder() {
 
 void AVLtree::levelOrder() {
 	levelOrderRecursive(root);
+}
+
+int AVLtree::getTreeSize() {
+	return treeSize;
 }
 

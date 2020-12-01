@@ -9,6 +9,7 @@ using namespace std;
 class AVLtree {
 private:
 	treeNode* root;
+	int treeSize;
 
 	treeNode* leftRotation(treeNode*& currentnode);
 	treeNode* rightRotation(treeNode*& currentnode);
@@ -32,5 +33,6 @@ public:
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd);
+	int getTreeSize();
 };
 
