@@ -34,6 +34,7 @@ public:
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
+	int searchYearIncidentNumber(int year);
 
 };
 
