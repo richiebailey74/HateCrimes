@@ -360,10 +360,11 @@ int main() {
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                 //This is where we will do our statistical analysis
                 //This needs to be stored in a data structure so that it can be written to an output file afterwards
+                
+                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                 crimeCount = AVLMap[*iter]->getTreeSize();
-
-
-                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
+                
+                //calculate mean hate crimes of each state per year (average #crimes/year)
                 int startYear = startDate / 10000;
                 int endYear = endDate / 10000;
                 int sum = 0;
@@ -375,10 +376,6 @@ int main() {
                     startYear++; 
                 }
                 mean = sum / count;
-                
-
-                    //calculate mean hate crimes of each state per year (average #crimse/year)
-                        //need a function to find the size of the vectors in each specified year (have to think about day and month)
 
                     //calculate the ANOVA
                 
@@ -393,13 +390,12 @@ int main() {
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                 //This is where we will do our statistical analysis
                 //This needs to be stored in a data structure so that it can be written to an output file afterwards
+                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree?
+                
+                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                 crimeCount = RBMap[*iter]->getTreeSize();
 
-                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
-                
-
-                    //calculate mean hate crimes of each state per year (average #crimse/year)
-                        //need a function to find the size of the vectors in each specified year (have to think about day and month)
+                //calculate mean hate crimes of each state per year (average #crimes/year)
                 //get the year of the start date and the end date
                 int startYear = startDate / 10000;
                 int endYear = endDate / 10000;
