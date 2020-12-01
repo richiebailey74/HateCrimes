@@ -71,8 +71,22 @@ bool RBtree::searchAddIncident(Incident* incidentToAdd) {
 	return searchSuccess;
 }
 
+void RBtree::searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum, int year) {
+	if(currentnode == NULL) {
+		return;
+	}
+	
+	searchYearIncidentDateRecursive(currentnode->left, incidentSum, year);
+	if((currentnode->date / 10000) == year) {
+		incidentSum += currentnode->incidentsContainer.size();
+	}
+	searchYearIncidentDateRecursive(currentnode->right, incidentSum, year);
+}
+
 int RBtree::searchYearIncidentNumber(int year) {
-	if(
+	int incidentNumberForYear = 0;
+	searchYearIncidentNumberRecursive(root, incidentNumberForYear, year);
+	return incidentNumberForYear;
 }
 
 treenode* RBtree::treeInsert(treenode* root, treenode* currentnode) {
