@@ -361,15 +361,14 @@ int main() {
                     int count = 0;
 
                     while (startYear <= endYear) {
-                        sum += searchYearIncidentNumber(startYear);
+                        sum += AVLMap[*iter]->searchYearIncidentNumber(startYear);
                         count++;
                         startYear++;
                     }
                     mean = sum / count;
 
-                    //calculate the ANOVA
-
                     //t test
+                    
                 }
                 endAVL = timer::now();
                 elapsedTime = endAVL - startAVL;
@@ -393,16 +392,14 @@ int main() {
                     int count = 0;
 
                     while (startYear <= endYear) {
-                        sum += searchYearIncidentNumber(startYear);
+                        sum += RBMap[*iter]->searchYearIncidentNumber(startYear);
                         count++;
                         startYear++;
                     }
                     mean = sum / count;
 
-
-                    //calculate the ANOVA
-
                     //t test
+                    
                 }
 
                 endRB = timer::now();
