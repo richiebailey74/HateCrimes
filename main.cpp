@@ -67,23 +67,6 @@ int reformatDate(string str) {
     return stoi(date);
 }
 
-int reformatUserDate(string str) {
-    //this function will change the format of DD-MM-YYYY to YYYYMMDD
-    string date;
-    //segment the string into day, month, and year
-    string day = str.substr(0, 2);
-    cout << "day is " << day << endl;
-    string month = str.substr(3, 2);
-    cout << "month is " << month << endl;
-    string year = str.substr(6);
-    cout << "year is " << year << endl;
-    string twenty = "20";
-    string nineteen = "19";
-
-    date = year + month + day;
-    return stoi(date);
-}
-
 bool checkState(string stateArr[], string input) {
     //this function checks the validity of the input of the states
 
@@ -230,13 +213,13 @@ int main() {
             cout << "Please enter the beginning year in the format YYYY: " << endl;
             string start;
             cin >> start;
-            start = "0101" + start;
-            startDate = reformatUserDate(start);
+            start = "01-01-" + start;
+            startDate = reformatDate(start);
             cout << "Please enter the ending year in the format YYYY: " << endl;
             string end;
             cin >> end;
-            end = "1231" + end;
-            endDate = reformatUserDate(end);
+            end = "12-31-" + end;
+            endDate = reformatDate(end);
         }
         else {
             startDate = 19910101;
