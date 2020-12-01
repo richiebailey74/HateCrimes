@@ -92,13 +92,19 @@ bool checkState(string stateArr[], string input) {
         input.at(i) = tolower(input.at(i));
     }
 
-    for (int i = 0; i < stateArr->length(); i++) {
+    for (int i = 0; i < 50; i++) {
         //checks if input equals one of the states in the array
         if (input == stateArr[i]) {
             return true;
         }
     }
     return false;
+}
+
+float tTest(float mean1, float sd1, int n1, float mean2, float sd2, int n2) {
+    //this function calculates the t test between two data sets
+    float t_test = (mean1 - mean2) / sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
+    return t_test;
 }
 
 void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, unordered_map<string, RBtree*>& RBMap) {
@@ -460,6 +466,17 @@ int main() {
 
                     if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
                         //compare these two specific states
+                        float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state1].at(3));
+                        cout << "A t-test between " << state1 << " and " << state2 << " results in the p-value " << result << endl;
+                        if (result < 0.05) {
+                            //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
+                            cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
+                            cout << state1 << " compared to " << state2 << "." << endl;
+                        } else {
+                            //fail to reject H0 (there is insufficient evidence to indicate a difference)
+                            cout << "Interpretation: There is NOT a significant difference between the number of hate crimes per year in ";
+                            cout << state1 << " compared to " << state2 << "." << endl;
+                        }
 
                     }
                     else {
