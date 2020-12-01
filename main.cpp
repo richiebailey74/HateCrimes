@@ -388,7 +388,7 @@ int main() {
                 //t test
             }
             endAVL = timer::now();
-            chrono::duration<double> elapsedTime = endAVL - startAVL;
+            elapsedTime = endAVL - startAVL;
             cout << setprecision(5) << "Time taken to run statistical analysis on AVL tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
             
             //stats for RB tree
@@ -408,7 +408,7 @@ int main() {
                 //t test
             }
             endRB = timer::now();
-            chrono::duration<double> elapsedTime = endRB - startRB;
+            elapsedTime = endRB - startRB;
             cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
             
 
