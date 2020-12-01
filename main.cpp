@@ -509,13 +509,12 @@ int main() {
                         outputFile << iter->first << "," << iter->second.at(0) << "," << iter->second.at(1) << "\n";
                     }
                     outputFile.close();
-                } else {
-                    cout << "Would you like to conduct another search?(Y/N)" << endl;
-                    cin >> compare;
+                }
+                cout << "Would you like to conduct another search?(Y/N)" << endl;
+                cin >> compare;
 
-                    if (compare != "Y" || compare != "y") {
-                        quit = true;
-                    }
+                if (compare != "Y" || compare != "y") {
+                    quit = true;
                 }
             }
         }
