@@ -25,6 +25,7 @@ private:
 	int BF(treeNode* node);
 	void traversalIncidentDate(treeNode* currentnode, Incident* incidentToAdd, bool& searchSuccess); //might need to add a date
 	//add away functions to abstract away functionality later
+	void searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum, int year);
 
 
 public:
@@ -34,5 +35,6 @@ public:
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd);
 	int getTreeSize();
+	int searchYearIncidentNumber(int year);
 };
 
