@@ -131,7 +131,6 @@ int main() {
 
     //menu boolean values
     int input;
-
     bool valid = false;
 
     //initialize the hate crime data file
@@ -150,7 +149,6 @@ int main() {
     cout << " Behind the scenes, the dataset can be loaded and traversed through either a Red-Black Tree";
     cout << " data structure or an AVL tree data structure, based on the user's discretion.";
     cout << " Thank you and happy parsing!" << endl;
-
 
     //menu function to print
     bool quit = false;
@@ -195,11 +193,9 @@ int main() {
                     //reset AVL and RB maps
                     AVLMap[*iter] = nullptr;
                     RBMap[*iter] = nullptr;
-
                 }
                 //call error statement
                 cout << "Error: Invalid state input." << endl;
-
             }
             if (state == "quit") {
                 quit = true;
@@ -275,17 +271,13 @@ int main() {
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
                 Incident* incidentObj1 = new Incident(tableState, date); //will work as long as the state name and date are extracted correct
 
+                //pass into check function (check if date is there, push back. if date is not there, add new node)
                 bool incidentPresent = AVLMap[tableState]->searchAddIncident(incidentObj1);
 
+                //if false, insert a new node and start rotations from there (push back vector too)
                 if (incidentPresent == false) {
                     AVLMap[tableState]->insertNode(incidentObj1->date, incidentObj1);
                 }
-
-                //pass into check function (check if date is there, push back. if date is not there, add new node)
-                    //if true, find existing tree node and push to vector (does in the search function automatically)
-                    //if false, insert a new node and start rotations from there (push back vector too)
-
-
             }
             auto endAVL = timer::now();
             chrono::duration<double> elapsedTime = endAVL - startAVL;
@@ -334,17 +326,13 @@ int main() {
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
                 Incident* incidentObj2 = new Incident(state, date);
 
+                //pass into check function (check if date is there, push back. if date is not there, add new node)
                 bool incidentPresent = RBMap[tableState]->searchAddIncident(incidentObj2);
 
+                //if false, insert a new node and start rotations from there (push back vector too)
                 if (incidentPresent == false) {
                     RBMap[tableState]->insertNode(incidentObj2->date, incidentObj2);
                 }
-
-                //pass into check function (check if date is there, push back. if date is not there, add new node)
-                    //if true, find existing tree node and push to vector (done in search functionality if appliceable)
-                    //if false, insert a new node and start rotations from there (push back vector too)
-
-
             }
             auto endRB = timer::now();
             elapsedTime = endRB - startRB;
@@ -357,9 +345,8 @@ int main() {
                 //stats for AVL tree
                 startAVL = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
-                    //This is where we will do our statistical analysis
-                    //This needs to be stored in a data structure so that it can be written to an output file afterwards
-
+                    //Begin statistical analysis
+                    
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                     crimeCount = AVLMap[*iter]->getTreeSize();
 
@@ -403,15 +390,12 @@ int main() {
                 //stats for RB tree
                 startRB = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
-                    //This is where we will do our statistical analysis
-                    //This needs to be stored in a data structure so that it can be written to an output file afterwards
-                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree?
-
+                    //Begin statistical analysis
+                    
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                     crimeCount = RBMap[*iter]->getTreeSize();
 
                     //calculate mean hate crimes of each state per year (average #crimes/year)
-                    //get the year of the start date and the end date
                     int startYear = startDate / 10000;
                     int endYear = endDate / 10000;
                     int sum = 0;
@@ -442,18 +426,14 @@ int main() {
                     csvOutput[*iter].push_back(crimeCount);
                     csvOutput[*iter].push_back(mean);
                     csvOutput[*iter].push_back(sd);
-                    
                 }
-
                 endRB = timer::now();
                 elapsedTime = endRB - startRB;
                 cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
 
-
                 cout << "Would you like to compare two specific states? (Y/N)" << endl;
 
                 string compare = "";
-
                 cin >> compare;
 
                 if (compare == "Y" || compare == "y") {
@@ -483,10 +463,7 @@ int main() {
                     else {
                         cout << "Error: The two selected states were not a part of the current analysis." << endl;
                     }
-
-
                 }
-
 
                 cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
                 cin >> compare;
@@ -501,7 +478,7 @@ int main() {
 
                     //outputFile.write();
                     //Write column names
-                    outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "Standard Deviation\n";
+                    outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "," << "Standard Deviation\n";
 
                     //write data to file
                     for(auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
@@ -521,4 +498,3 @@ int main() {
     }
     return 0;
 }
-
