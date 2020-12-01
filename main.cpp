@@ -158,6 +158,7 @@ int main() {
         cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
         bool inputValid = true;
         set<string> searchStates;
+        unordered_map<string, vector<float>> csvOutput;
 
         getline(cin, stateInput);
         string state = "";
@@ -381,10 +382,11 @@ int main() {
 
                     var=var/float(temp);
                     sd = sqrt(var);
-
-                    //t test
-
+                    
                     //add to a map<string, vector<int>> to store to output to csv
+                    csvOutput[*iter].push_back(crimeCount);
+                    csvOutput[*iter].push_back(mean);
+                    csvOutput[*iter].push_back(sd);
                     
                 }
                 endAVL = timer::now();
@@ -428,10 +430,11 @@ int main() {
 
                     var=var/float(temp);
                     sd = sqrt(var);
-
-                    //t test
-
+                    
                     //add to a map<string, vector<int>> to store to output to csv
+                    csvOutput[*iter].push_back(crimeCount);
+                    csvOutput[*iter].push_back(mean);
+                    csvOutput[*iter].push_back(sd);
                     
                 }
 
@@ -479,7 +482,15 @@ int main() {
                     outputFile.open(fileName + ".csv");
 
                     //outputFile.write();
-                    //need to know structural of analysis to design the structure of the csv file
+                    //Write column names
+                    outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "Standard Deviation\n";
+
+                    //write data to file
+                    for(auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
+                        //loop through the states and their data
+                        outputFile << iter->first << "," << iter->second.at(0) << "," << iter->second.at(1) << "\n";
+                    }
+                    outputFile.close();
                 }
             }
         }
