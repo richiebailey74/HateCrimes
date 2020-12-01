@@ -56,6 +56,24 @@ bool AVLtree::searchAddIncident(Incident* incidentToAdd) {
 	return searchSuccess;
 }
 
+void AVLtree::searchYearIncidentDateRecursive(treeNode* currentnode, int& incidentSum, int year) {
+	if(currentnode == NULL) {
+		return;
+	}
+	
+	searchYearIncidentDateRecursive(currentnode->left, incidentSum, year);
+	if((currentnode->date / 10000) == year) {
+		incidentSum += currentnode->incidentsContainer.size();
+	}
+	searchYearIncidentDateRecursive(currentnode->right, incidentSum, year);
+}
+
+int AVLtree::searchYearIncidentNumber(int year) {
+	int incidentNumberForYear = 0;
+	searchYearIncidentNumberRecursive(root, incidentNumberForYear, year);
+	return incidentNumberForYear;
+}
+
 int AVLtree::height(treeNode* node) {
 	if (node == NULL) {
 		return 0;
