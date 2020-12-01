@@ -352,6 +352,8 @@ int main() {
             cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
 
         int crimeCount;
+        int mean;
+            
         if (inputValid) {
             //stats for AVL tree
             startAVL = timer::now();
@@ -362,6 +364,17 @@ int main() {
 
 
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
+                int startYear = startDate / 10000;
+                int endYear = endDate / 10000;
+                int sum = 0;
+                int count = 0;
+                
+                while(startYear <= endYear) {
+                    sum += searchYearIncidentNumber(startYear);
+                    count++;
+                    startYear++; 
+                }
+                mean = sum / count;
                 
 
                     //calculate mean hate crimes of each state per year (average #crimse/year)
@@ -387,6 +400,19 @@ int main() {
 
                     //calculate mean hate crimes of each state per year (average #crimse/year)
                         //need a function to find the size of the vectors in each specified year (have to think about day and month)
+                //get the year of the start date and the end date
+                int startYear = startDate / 10000;
+                int endYear = endDate / 10000;
+                int sum = 0;
+                int count = 0;
+                
+                while(startYear <= endYear) {
+                    sum += searchYearIncidentNumber(startYear);
+                    count++;
+                    startYear++; 
+                }
+                mean = sum / count;
+                
 
                     //calculate the ANOVA
                 
