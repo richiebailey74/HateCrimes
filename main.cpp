@@ -246,6 +246,8 @@ int main() {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
                 }
+                tableState = tableState.substr(1,tableState.length() - 2);
+                tableState.at(0) = tolower(tableState.at(0)); 
 
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
@@ -301,6 +303,8 @@ int main() {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
                 }
+                tableState = tableState.substr(1,tableState.length() - 2);
+                tableState.at(0) = tolower(tableState.at(0)); 
 
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
