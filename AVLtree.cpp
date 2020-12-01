@@ -70,7 +70,7 @@ void AVLtree::searchYearIncidentDateRecursive(treeNode* currentnode, int& incide
 
 int AVLtree::searchYearIncidentNumber(int year) {
 	int incidentNumberForYear = 0;
-	searchYearIncidentNumberRecursive(root, incidentNumberForYear, year);
+	searchYearIncidentDateRecursive(root, incidentNumberForYear, year);
 	return incidentNumberForYear;
 }
 
