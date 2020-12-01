@@ -68,6 +68,21 @@ int reformatDate(string str) {
 
 }
 
+bool validDate(int startDate, int endDate) {
+    if (startDate > endDate) {
+        cout << "Invalid date range." << endl;
+        return false;
+    }
+    if (startDate < 1991 || startDate > 2018) {
+        cout << "Your start date is out of range. The program will default to use the start date of the dataset" << endl;
+    }
+    if (endDate < 1991 || endDate > 2018) {
+        cout << "Your end date is out of range. The program will default to use the start date of the dataset" << endl;
+    }
+    return true;
+
+}
+
 bool checkState(string stateArr[], string input) {
     //this function checks the validity of the input of the states
 
@@ -170,15 +185,13 @@ int main() {
                 //empty searchStates
                 searchStates.clear();
                 //call error statement
-                cout << "Error: Invalid state input, " << stateInput << " not included." << endl;
+                cout << "Error: Invalid state input." << endl;
 
             }
             if (state == "quit") {
                 quit = true;
                 inputValid = false;
             }
-
-
         }
 
         int startDate;
@@ -187,23 +200,26 @@ int main() {
         cin >> rangeChoice;
         if (inputValid) {
             if (rangeChoice == "Y" || rangeChoice == "y") {
-                //Lets them pick their own dates
-                cout << "Please enter the beginning year in the format YYYY: " << endl;
-                string start;
-                cin >> start;
-                start += "0101";
-                startDate = stoi(start);
-                cout << "Please enter the ending year in the format YYYY: " << endl;
-                string end;
-                cin >> end;
-                end += "1231";
-                endDate = stoi(end);
+                do {
+                    //Lets them pick their own dates
+                    cout << "Please enter the beginning year in the format YYYY: " << endl;
+                    string start;
+                    cin >> start;
+                    start += "0101";
+                    startDate = stoi(start);
+                    cout << "Please enter the ending year in the format YYYY: " << endl;
+                    string end;
+                    cin >> end;
+                    end += "1231";
+                    endDate = stoi(end);
+                } while(!validDate(startDate, endDate));
             }
             else {
                 startDate = 19910101;
                 endDate = 20183112;
             }
         }
+        
         if (inputValid) {
         
             //building AVL tree with csv data
