@@ -170,6 +170,7 @@ int main() {
                 //empty searchStates
                 searchStates.clear();
                 //call error statement
+                cout << "Error: Invalid state input, " << stateInput << " not included." << endl;
 
             }
             if (state == "quit") {
