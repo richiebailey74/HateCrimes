@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <iomanip>
+#include <math.h>
 #include "treenode.h"
 #include "treeNode.h"
 #include "RBtree.h"
@@ -342,7 +343,7 @@ int main() {
             cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
 
             int crimeCount;
-            int mean;
+            float mean = 0.0;
 
             if (inputValid) {
                 //stats for AVL tree
@@ -359,15 +360,31 @@ int main() {
                     int endYear = endDate / 10000;
                     int sum = 0;
                     int count = 0;
+                    vector<int> crimesPerYear;
 
                     while (startYear <= endYear) {
-                        sum += AVLMap[*iter]->searchYearIncidentNumber(startYear);
+                        int num = AVLMap[*iter]->searchYearIncidentNumber(startYear);
+                        crimesPerYear.push_back(num);
+                        sum += num;
                         count++;
                         startYear++;
                     }
-                    mean = sum / count;
+                    int temp = count;
+                    mean = float(sum) / float(temp);
+
+                    //calculate standard deviation
+                    float var = 0.0;
+                    float sd = 0.0;
+                    for (int i = 0; i < count; ++i) {
+                        var += pow(crimesPerYear.at(i) - mean, 2);
+                    }
+
+                    var=var/float(temp);
+                    sd = sqrt(var);
 
                     //t test
+
+                    //add to a map<string, vector<int>> to store to output to csv
                     
                 }
                 endAVL = timer::now();
@@ -390,15 +407,31 @@ int main() {
                     int endYear = endDate / 10000;
                     int sum = 0;
                     int count = 0;
+                    vector<int> crimesPerYear;
 
                     while (startYear <= endYear) {
-                        sum += RBMap[*iter]->searchYearIncidentNumber(startYear);
+                        int num = RBMap[*iter]->searchYearIncidentNumber(startYear);
+                        crimesPerYear.push_back(num);
+                        sum += num;
                         count++;
                         startYear++;
                     }
-                    mean = sum / count;
+                    int temp = count;
+                    mean = float(sum) / float(temp);
+
+                    //calculate standard deviation
+                    float var = 0.0;
+                    float sd = 0.0;
+                    for (int i = 0; i < count; ++i) {
+                        var += pow(crimesPerYear.at(i) - mean, 2);
+                    }
+
+                    var=var/float(temp);
+                    sd = sqrt(var);
 
                     //t test
+
+                    //add to a map<string, vector<int>> to store to output to csv
                     
                 }
 
