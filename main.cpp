@@ -157,11 +157,11 @@ int main() {
         cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
         bool inputValid = true;
         set<string> searchStates;
-        
+
         getline(cin, stateInput);
         string state = "";
 
-        while(inputValid && stateInput != "") {
+        while (inputValid && stateInput != "") {
             state = stateInput.substr(0, stateInput.find(','));
             if (stateInput.find(',') == string::npos) {
                 stateInput = "";
@@ -169,11 +169,11 @@ int main() {
             else {
                 stateInput = stateInput.substr(stateInput.find(',') + 2);
             }
-                    
+
             if (checkState(stateArr, stateInput)) {
                 searchStates.insert(stateInput);
-                
-                AVLtree *temp1 = new AVLtree();
+
+                AVLtree* temp1 = new AVLtree();
                 AVLMap.emplace(stateInput, temp1);
 
                 RBtree* temp2 = new RBtree();
@@ -211,39 +211,32 @@ int main() {
                     cin >> end;
                     end += "1231";
                     endDate = stoi(end);
-                } while(!validDate(startDate, endDate));
+                } while (!validDate(startDate, endDate));
             }
             else {
                 startDate = 19910101;
                 endDate = 20183112;
             }
         }
-        
+
         if (inputValid) {
-        
+
             //building AVL tree with csv data
+            string tableState = "";
             auto startAVL = timer::now();
-        
+            
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
             string blank;
             getline(file, blank);
-        
-            while(!file.eof()) {
+
+            while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
                 for (int i = 1; i <= 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
-                    getline(file, state, ',');
+                    getline(file, tableState, ',');
                 }
-            
-                bool found = false;
-                //check if the state is in the searchStates vector (move to next row)
-                for (int i = 0; i < searchStates.size(); i++) {
-                    if (searchStates.find(state) != searchStates.end()) {
-                        //if the state has been specified
-                        found = true;
-                    }
-                }
-                if (!found) {
+
+                if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
                     getline(file, blank);
                     continue;
@@ -257,7 +250,7 @@ int main() {
 
                 //reformat the date string from the CSV file to have the format of YYYYMMDD
                 int date = reformatDate(date_str);
-            
+
                 if (date < startDate || date > endDate) {
                     //date is out of range
                     getline(file, blank);
@@ -265,52 +258,44 @@ int main() {
                 }
 
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-                Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
-            
-                bool incidentPresent = AVLMap[state]->searchAddIncident(incidentObj1);
-            
-                if(incidentPresent == false) {
-                    AVLMap[state]->insertNode(incidentObj1->date, incidentObj1);
+                Incident* incidentObj1 = new Incident(tableState, date); //will work as long as the state name and date are extracted correct
+
+                bool incidentPresent = AVLMap[tableState]->searchAddIncident(incidentObj1);
+
+                if (incidentPresent == false) {
+                    AVLMap[tableState]->insertNode(incidentObj1->date, incidentObj1);
                 }
-            
+
                 //pass into check function (check if date is there, push back. if date is not there, add new node)
                     //if true, find existing tree node and push to vector (does in the search function automatically)
                     //if false, insert a new node and start rotations from there (push back vector too)
-            
-            
-            }                                                                                                                                                                                                                                                                                                                                                                                
+
+
+            }
             auto endAVL = timer::now();
             chrono::duration<double> elapsedTime = endAVL - startAVL;
-            cout << setprecision(5) << "Time taken to build AVL tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
+            cout << setprecision(5) << "Time taken to build AVL tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
 
             //building RB tree with csv data
-        
+
             //reset the ifstream file object
             file.clear();
             file.seekg(0, ios::beg);
-        
+            tableState = "";
             auto startRB = timer::now();
-        
+
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
             getline(file, blank);
-        
-            while(!file.eof()) {
+
+            while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
                 string state;
                 for (int i = 1; i <= 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
-                    getline(file, state, ',');
+                    getline(file, tableState, ',');
                 }
-            
-                bool found = false;
-                //check if the state is in the searchStates vector (move to next row)
-                for (int i = 0; i < searchStates.size(); i++) {
-                    if (searchStates.find(state) != searchStates.end()) {
-                        //if the state has been specified
-                        found = true;
-                    }
-                }
-                if (!found) {
+
+                if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
                     getline(file, blank);
                     continue;
@@ -324,7 +309,7 @@ int main() {
 
                 //reformat the date string from the CSV file to have the format of YYYYMMDD
                 int date = reformatDate(date_str);
-            
+
                 if (date < startDate || date > endDate) {
                     //date is out of range
                     getline(file, blank);
@@ -333,98 +318,98 @@ int main() {
 
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
                 Incident* incidentObj2 = new Incident(state, date);
-            
-                bool incidentPresent = RBMap[state]->searchAddIncident(incidentObj2);
-            
-                if(incidentPresent == false) {
-                    RBMap[state]->insertNode(incidentObj2->date, incidentObj2);
+
+                bool incidentPresent = RBMap[tableState]->searchAddIncident(incidentObj2);
+
+                if (incidentPresent == false) {
+                    RBMap[tableState]->insertNode(incidentObj2->date, incidentObj2);
                 }
-            
+
                 //pass into check function (check if date is there, push back. if date is not there, add new node)
                     //if true, find existing tree node and push to vector (done in search functionality if appliceable)
                     //if false, insert a new node and start rotations from there (push back vector too)
-            
-            
-            }                           
+
+
+            }
             auto endRB = timer::now();
             elapsedTime = endRB - startRB;
             cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
 
-        int crimeCount;
-        int mean;
-            
-        if (inputValid) {
-            //stats for AVL tree
-            startAVL = timer::now();
-            for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
-                //This is where we will do our statistical analysis
-                //This needs to be stored in a data structure so that it can be written to an output file afterwards
-                
-                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
-                crimeCount = AVLMap[*iter]->getTreeSize();
-                
-                //calculate mean hate crimes of each state per year (average #crimes/year)
-                int startYear = startDate / 10000;
-                int endYear = endDate / 10000;
-                int sum = 0;
-                int count = 0;
-                
-                while(startYear <= endYear) {
-                    sum += searchYearIncidentNumber(startYear);
-                    count++;
-                    startYear++; 
-                }
-                mean = sum / count;
+            int crimeCount;
+            int mean;
+
+            if (inputValid) {
+                //stats for AVL tree
+                startAVL = timer::now();
+                for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                    //This is where we will do our statistical analysis
+                    //This needs to be stored in a data structure so that it can be written to an output file afterwards
+
+                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
+                    crimeCount = AVLMap[*iter]->getTreeSize();
+
+                    //calculate mean hate crimes of each state per year (average #crimes/year)
+                    int startYear = startDate / 10000;
+                    int endYear = endDate / 10000;
+                    int sum = 0;
+                    int count = 0;
+
+                    while (startYear <= endYear) {
+                        sum += searchYearIncidentNumber(startYear);
+                        count++;
+                        startYear++;
+                    }
+                    mean = sum / count;
 
                     //calculate the ANOVA
-                
+
                     //t test
                 }
                 endAVL = timer::now();
                 elapsedTime = endAVL - startAVL;
-                cout << setprecision(5) << "Time taken to run statistical analysis on AVL tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
+                cout << setprecision(5) << "Time taken to run statistical analysis on AVL tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
 
-            //stats for RB tree
-            startRB = timer::now();
-            for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
-                //This is where we will do our statistical analysis
-                //This needs to be stored in a data structure so that it can be written to an output file afterwards
-                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree?
-                
-                //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
-                crimeCount = RBMap[*iter]->getTreeSize();
+                //stats for RB tree
+                startRB = timer::now();
+                for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                    //This is where we will do our statistical analysis
+                    //This needs to be stored in a data structure so that it can be written to an output file afterwards
+                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree?
 
-                //calculate mean hate crimes of each state per year (average #crimes/year)
-                //get the year of the start date and the end date
-                int startYear = startDate / 10000;
-                int endYear = endDate / 10000;
-                int sum = 0;
-                int count = 0;
-                
-                while(startYear <= endYear) {
-                    sum += searchYearIncidentNumber(startYear);
-                    count++;
-                    startYear++; 
-                }
-                mean = sum / count;
-                
+                    //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
+                    crimeCount = RBMap[*iter]->getTreeSize();
+
+                    //calculate mean hate crimes of each state per year (average #crimes/year)
+                    //get the year of the start date and the end date
+                    int startYear = startDate / 10000;
+                    int endYear = endDate / 10000;
+                    int sum = 0;
+                    int count = 0;
+
+                    while (startYear <= endYear) {
+                        sum += searchYearIncidentNumber(startYear);
+                        count++;
+                        startYear++;
+                    }
+                    mean = sum / count;
+
 
                     //calculate the ANOVA
-                
+
                     //t test
                 }
 
                 endRB = timer::now();
                 elapsedTime = endRB - startRB;
-                cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
-            
+                cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
+
 
                 cout << "Would you like to compare two specific states? (Y/N)" << endl;
 
                 string compare = "";
 
                 cin >> compare;
-            
+
                 if (compare == "Y" || compare == "y") {
                     string state1;
                     string state2;
@@ -436,7 +421,7 @@ int main() {
 
                     if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
                         //compare these two specific states
-                    
+
                     }
                     else {
                         cout << "Error: The two selected states were not a part of the current analysis." << endl;
@@ -444,7 +429,7 @@ int main() {
 
 
                 }
-           
+
 
                 cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
                 cin >> compare;
@@ -460,7 +445,9 @@ int main() {
                     //outputFile.write();
                     //need to know structural of analysis to design the structure of the csv file
                 }
-        }  
+            }
+        }
     }
     return 0;
 }
+
