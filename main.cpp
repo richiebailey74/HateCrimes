@@ -178,14 +178,14 @@ int main() {
                 stateInput = stateInput.substr(stateInput.find(',') + 2);
             }
 
-            if (checkState(stateArr, stateInput)) {
-                searchStates.insert(stateInput);
+            if (checkState(stateArr, state)) {
+                searchStates.insert(state);
 
                 AVLtree* temp1 = new AVLtree();
-                AVLMap.emplace(stateInput, temp1);
+                AVLMap.emplace(state, temp1);
 
                 RBtree* temp2 = new RBtree();
-                RBMap.emplace(stateInput, temp2);
+                RBMap.emplace(state, temp2);
             }
             else {
                 inputValid = false;
@@ -209,6 +209,7 @@ int main() {
 
         int startDate;
         int endDate;
+        cout << "Would you like to conduct your search within a range of specific years? (Y/N)" << endl;
         string rangeChoice = "";
         cin >> rangeChoice;
         if (inputValid) {
@@ -508,6 +509,13 @@ int main() {
                         outputFile << iter->first << "," << iter->second.at(0) << "," << iter->second.at(1) << "\n";
                     }
                     outputFile.close();
+                } else {
+                    cout << "Would you like to conduct another search?(Y/N)" << endl;
+                    cin >> compare;
+
+                    if (compare != "Y" || compare != "y") {
+                        quit = true;
+                    }
                 }
             }
         }
