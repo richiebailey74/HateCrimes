@@ -27,7 +27,7 @@ private:
 	bool compareTreenodes(treenode* N1, treenode* N2);
 	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
 	int getTreeSize();
-	void searchYearIncidentDateRecursive(treenode* currentnode, int incidentSum);
+	void searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum);
 
 public:
 	RBtree();
