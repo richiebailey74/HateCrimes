@@ -85,7 +85,7 @@ void RBtree::searchYearIncidentDateRecursive(treenode* currentnode, int& inciden
 
 int RBtree::searchYearIncidentNumber(int year) {
 	int incidentNumberForYear = 0;
-	searchYearIncidentNumberRecursive(root, incidentNumberForYear, year);
+	searchYearIncidentDateRecursive(root, incidentNumberForYear, year);
 	return incidentNumberForYear;
 }
 
