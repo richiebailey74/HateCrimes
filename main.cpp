@@ -135,13 +135,6 @@ int main() {
     unordered_map<string, AVLtree*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
     unordered_map<string, RBtree*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     initializeMaps(stateArr, AVLMap, RBMap);
-
-    //if we're going to be adding multiple trees to the map, I'm pretty sure we'll have to move these declaration but I'm not entirely sure how the interface works
-    //we might need another loop if they're going to be inserting multiple states so we can have separate tree objects
-    //create a red black tree root
-    RBtree* RBTREE = new RBtree;
-    //create an AVL tree root
-    AVLtree* AVLTREE = new AVLtree;
     
     //Program introduction
     cout << "Welcome to the Hate Crime dataset! This program allows the user to analyze hate crime incidents";
@@ -179,6 +172,12 @@ int main() {
                     
             if (checkState(stateArr, stateInput)) {
                 searchStates.insert(stateInput);
+                
+                AVLtree *temp1 = new AVLtree();
+                AVLMap.emplace(stateInput, temp1);
+
+                RBtree* temp2 = new RBtree();
+                RBMap.emplace(stateInput, temp2);
             }
             else {
                 inputValid = false;
@@ -268,10 +267,10 @@ int main() {
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
                 Incident* incidentObj1 = new Incident(state, date); //will work as long as the state name and date are extracted correct
             
-                bool incidentPresent = AVLTREE->searchAddIncident(incidentObj1);
+                bool incidentPresent = AVLMap[state]->searchAddIncident(incidentObj1);
             
                 if(incidentPresent == false) {
-                    AVLTREE->insertNode(incidentObj1->date, incidentObj1);
+                    AVLMap[state]->insertNode(incidentObj1->date, incidentObj1);
                 }
             
                 //pass into check function (check if date is there, push back. if date is not there, add new node)
@@ -335,10 +334,10 @@ int main() {
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
                 Incident* incidentObj2 = new Incident(state, date);
             
-                bool incidentPresent = RBTREE->searchAddIncident(incidentObj2);
+                bool incidentPresent = RBMap[state]->searchAddIncident(incidentObj2);
             
                 if(incidentPresent == false) {
-                    RBTREE->insertNode(incidentObj2->date, incidentObj2);
+                    RBMap[state]->insertNode(incidentObj2->date, incidentObj2);
                 }
             
                 //pass into check function (check if date is there, push back. if date is not there, add new node)
