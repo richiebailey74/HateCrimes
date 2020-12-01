@@ -26,7 +26,6 @@ private:
 	bool isBlack(treenode* node);
 	bool compareTreenodes(treenode* N1, treenode* N2);
 	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
-	int getTreeSize();
 	void searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum, int year);
 
 public:
@@ -35,6 +34,7 @@ public:
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
+	int getTreeSize();
 	int searchYearIncidentNumber(int year);
 
 };
