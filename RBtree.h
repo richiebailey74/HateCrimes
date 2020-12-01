@@ -9,6 +9,7 @@ using namespace std;
 class RBtree {
 private:
 	treenode* root;
+	int treeSize;
 
 	void leftRotation(treenode*& root, treenode*& currentnode);
 	void rightRotation(treenode*& root, treenode*& currentnode);
@@ -25,6 +26,7 @@ private:
 	bool isBlack(treenode* node);
 	bool compareTreenodes(treenode* N1, treenode* N2);
 	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
+	int getTreeSize();
 
 public:
 	RBtree();
