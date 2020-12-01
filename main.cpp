@@ -327,12 +327,14 @@ int main() {
         elapsedTime = endRB - startRB;
         cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
         
+        int crimeCount;
         if (inputValid) {
             //stats for AVL tree
             startAVL = timer::now();
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                 //This is where we will do our statistical analysis
                 //This needs to be stored in a data structure so that it can be written to an output file afterwards
+                crimeCount = AVLMap[*iter]->getTreeSize();
 
                 //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                 
@@ -353,6 +355,7 @@ int main() {
             for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                 //This is where we will do our statistical analysis
                 //This needs to be stored in a data structure so that it can be written to an output file afterwards
+                crimeCount = RBMap[*iter]->getTreeSize();
 
                 //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                 
