@@ -190,13 +190,13 @@ int main() {
                 cout << "Please enter the beginning year in the format YYYY: " << endl;
                 string start;
                 cin >> start;
-                start = "01-01-" + start;
-                startDate = reformatDate(start);
+                start += "0101";
+                startDate = stoi(start);
                 cout << "Please enter the ending year in the format YYYY: " << endl;
                 string end;
                 cin >> end;
-                end = "12-31-" + end;
-                endDate = reformatDate(end);
+                end += "1231";
+                endDate = stoi(end);
             }
             else {
                 startDate = 19910101;
