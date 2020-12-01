@@ -57,6 +57,7 @@ void RBtree::traversalIncidentDate(treenode* currentnode, Incident* incidentToAd
 		if (currentnode->date == incidentToAdd->date) { //will be the incident's date (or the date passed in)
 			searchSuccess = true;
 			currentnode->incidentsContainer.push_back(incidentToAdd);
+			treeSize++;
 
 		}
 		traversalIncidentDate(currentnode->left, incidentToAdd, searchSuccess);
@@ -242,6 +243,7 @@ void RBtree::imbalanceFix(treenode*& root, treenode*& currentnode) {
 void RBtree::insertNode(int val, Incident* incident) {
 	treenode* newVal = new treenode(val);
 	newVal->incidentsContainer.push_back(incident);
+	treeSize++;
 	
 	root = treeInsert(root, newVal);
 
@@ -255,4 +257,8 @@ void RBtree::inOrder() {
 
 void RBtree::levelOrder() {
 	levelOrderRecursive(root);
+}
+
+int RBtree::getTreeSize() {
+	return treeSize;
 }
