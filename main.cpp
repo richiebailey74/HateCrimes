@@ -183,6 +183,12 @@ int main() {
                 inputValid = false;
                 //empty searchStates
                 searchStates.clear();
+                for(auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                    //reset AVL and RB maps
+                    AVLMap[*iter] = nullptr;
+                    RBMap[*iter] = nullptr;
+
+                }
                 //call error statement
                 cout << "Error: Invalid state input." << endl;
 
