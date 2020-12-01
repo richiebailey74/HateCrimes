@@ -71,6 +71,10 @@ bool RBtree::searchAddIncident(Incident* incidentToAdd) {
 	return searchSuccess;
 }
 
+int RBtree::searchYearIncidentNumber(int year) {
+	if(
+}
+
 treenode* RBtree::treeInsert(treenode* root, treenode* currentnode) {
 
 	if (root == NULL) {

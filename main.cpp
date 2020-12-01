@@ -341,6 +341,8 @@ int main() {
                     //This is where we will do our statistical analysis
                     //This needs to be stored in a data structure so that it can be written to an output file afterwards
 
+
+
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                 
 
