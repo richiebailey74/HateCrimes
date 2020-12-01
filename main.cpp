@@ -84,34 +84,6 @@ bool checkState(string stateArr[], string input) {
     return false;
 }
 
-/*void initializeTrees(fstream& file, unordered_map<string, RBNode*> rbMap, unordered_map<string, AVLNode*> avlMap) {
-
-    //the first 28 lines of input are the column headers which we have no use for so just skip over them
-    string firstRow;
-    getline(file, firstRow);
-
-
-    //this loop will visit each row of the csv file until the file has ended
-    string state;
-    for (int i = 1; i <= 8; i++) {
-        //this loop will loop through the unnecessary data columns until it reaches the state name column
-        getline(file, state, ',');
-    }
-
-    string date_str;
-    for (int i = 1; i <= 7; i++) {
-        //this loop will loop through the unnecessary data columns until it reaches the date column
-        getline(file, date_str, ',');
-    }
-
-    //reformat the date string from the CSV file to have the format of YYYYMMDD
-    int date = reformatDate(date_str);
-
-    //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-    Incident newIncident(state, date);
-
-} */
-
 void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, unordered_map<string, RBtree*>& RBMap) {
     //this function will initialize the state maps for both AVL and RB trees
 
