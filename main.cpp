@@ -227,13 +227,15 @@ int main() {
         cin >> rangeChoice;
         if (rangeChoice == "Y" || rangeChoice == "y") {
             //Lets them pick their own dates
-            cout << "Please enter the start date in the format DD-MM-YYYY: " << endl;
+            cout << "Please enter the beginning year in the format YYYY: " << endl;
             string start;
             cin >> start;
+            start = "0101" + start;
             startDate = reformatUserDate(start);
-            cout << "Please enter the end date in the format DD-MM-YYYY: " << endl;
+            cout << "Please enter the ending year in the format YYYY: " << endl;
             string end;
             cin >> end;
+            end = "1231" + end;
             endDate = reformatUserDate(end);
         }
         else {
@@ -407,6 +409,7 @@ int main() {
                 
                 //t test
             }
+
             endRB = timer::now();
             chrono::duration<double> elapsedTime = endRB - startRB;
             cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " <<  setprecision(5) << elapsedTime.count() << " seconds" << endl;
@@ -449,6 +452,8 @@ int main() {
                 cin >> fileName;
 
                 outputFile.open(fileName + ".csv");
+
+                //outputFile.write();
                 //need to know structural of analysis to design the structure of the csv file
             }
         }  
