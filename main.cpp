@@ -20,7 +20,7 @@ int reformatDate(string str) {
     string day = str.substr(0, 2);
     string month = str.substr(3, 3);
     //swap the string of month out with the number
-    for (int i = 0; i < month.length(); i++) {
+    for (unsigned int i = 0; i < month.length(); i++) {
         //convert all letters to lower case
         month.at(i) = (tolower(month[i]));
     }
@@ -88,7 +88,7 @@ bool checkState(string stateArr[], string input) {
     //this function checks the validity of the input of the states
 
     //convert all the letters in the input to lowercase
-    for (int i = 0; i < input.length(); i++) {
+    for (unsigned int i = 0; i < input.length(); i++) {
         input.at(i) = tolower(input.at(i));
     }
 
@@ -111,7 +111,7 @@ void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, 
     //this function will initialize the state maps for both AVL and RB trees
 
     //initialize the maps to hold the states as the keys
-    for(int i = 0; i < stateArr->length(); i++) {
+    for(unsigned int i = 0; i < stateArr->length(); i++) {
         AVLMap[stateArr[i]] = nullptr;
         RBMap[stateArr[i]] = nullptr;
     }
@@ -130,7 +130,6 @@ int main() {
                           "wisconsin", "wyoming" };
 
     //menu boolean values
-    int input;
     bool valid = false;
 
     //initialize the hate crime data file
@@ -162,8 +161,7 @@ int main() {
         cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
         bool inputValid = true;
         set<string> searchStates;
-        unordered_map<string, vector<float>> csvOutput;
-
+        
         getline(cin, stateInput);
         string state = "";
 
@@ -208,6 +206,7 @@ int main() {
         cout << "Would you like to conduct your search within a range of specific years? (Y/N)" << endl;
         string rangeChoice = "";
         cin >> rangeChoice;
+        //cout << inputValid << endl;
         if (inputValid) {
             if (rangeChoice == "Y" || rangeChoice == "y") {
                 do {
@@ -239,14 +238,19 @@ int main() {
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
             string blank;
             getline(file, blank);
-
+            
+           
             while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
                 for (int i = 1; i <= 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
+                    
                 }
-                tableState = tableState.substr(1,tableState.length() - 2);
+                if (file.eof()) {
+                    break;
+                }
+                tableState = tableState.substr(1,tableState.length() - 1); //
                 tableState.at(0) = tolower(tableState.at(0)); 
 
                 if (searchStates.find(tableState) == searchStates.end()) {
@@ -303,6 +307,9 @@ int main() {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
                 }
+                if (file.eof()) {
+                    break;
+                }
                 tableState = tableState.substr(1,tableState.length() - 2);
                 tableState.at(0) = tolower(tableState.at(0)); 
 
@@ -344,6 +351,8 @@ int main() {
 
             int crimeCount;
             float mean = 0.0;
+
+            unordered_map<string, vector<float>> csvOutput;
 
             if (inputValid) {
                 //stats for AVL tree
@@ -445,7 +454,7 @@ int main() {
                     string state2;
                     cout << "Enter State 1: ";
                     cin >> state1;
-                    cout << endl << "Enter State 2: ";
+                    cout << "Enter State 2: ";
                     cin >> state2;
                     cout << endl;
 
@@ -480,7 +489,6 @@ int main() {
 
                     outputFile.open(fileName + ".csv");
 
-                    //outputFile.write();
                     //Write column names
                     outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "," << "Standard Deviation\n";
 
@@ -491,12 +499,25 @@ int main() {
                     }
                     outputFile.close();
                 }
-                cout << "Would you like to conduct another search?(Y/N)" << endl;
-                cin >> compare;
 
-                if (compare != "Y" || compare != "y") {
-                    quit = true;
-                }
+                bool valid;
+                do {
+                    cout << "Would you like to conduct another search?(Y/N)" << endl;
+                    cin >> compare;
+
+                    if (compare == "Y" || compare == "y") {
+                        quit = false;
+                        valid = true;
+                    }
+                    else if(compare == "q" || compare == "q"){
+                        quit = true;
+                        valid = true;
+                    }
+                    else {
+                        cout << "Error: Invalid selection. Please try again." << endl;
+                        valid = false;
+                    }
+                } while (!valid);
             }
         }
     }
