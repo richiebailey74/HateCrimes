@@ -120,7 +120,7 @@ void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, 
 int main() {
     //timer variable
     typedef std::chrono::high_resolution_clock timer;
-    
+
     //create an array of states
     string stateArr[] = { "alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia",
                           "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts",
@@ -140,7 +140,7 @@ int main() {
     unordered_map<string, AVLtree*> AVLMap; //nodes are dates (identifier form: YYYYMMDD)
     unordered_map<string, RBtree*> RBMap; //nodes are dates (identifier form: YYYYMMDD)
     initializeMaps(stateArr, AVLMap, RBMap);
-    
+
     //Program introduction
     cout << "Welcome to the Hate Crime dataset! This program allows the user to analyze hate crime incidents";
     cout << " recorded by the FBI from 1991 to 2018. This program allows users to parse the data by";
@@ -153,7 +153,7 @@ int main() {
     bool quit = false;
     string stateInput = "";
     int index = 0;
-    
+
     while (!quit) {
         //menu function call
         //take in comma separated state list
@@ -161,10 +161,10 @@ int main() {
         cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
         bool inputValid = true;
         set<string> searchStates;
-        
+
         getline(cin, stateInput);
         string state = "";
-
+        stateInput = " ";
         while (inputValid && stateInput != "") {
             state = stateInput.substr(0, stateInput.find(','));
             if (stateInput.find(',') == string::npos) {
@@ -187,7 +187,7 @@ int main() {
                 inputValid = false;
                 //empty searchStates
                 searchStates.clear();
-                for(auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //reset AVL and RB maps
                     AVLMap[*iter] = nullptr;
                     RBMap[*iter] = nullptr;
@@ -203,11 +203,11 @@ int main() {
 
         int startDate;
         int endDate;
-        cout << "Would you like to conduct your search within a range of specific years? (Y/N)" << endl;
-        string rangeChoice = "";
-        cin >> rangeChoice;
-        //cout << inputValid << endl;
+        //cout << inputValid << endl
         if (inputValid) {
+            cout << "Would you like to conduct your search within a range of specific years? (Y/N)" << endl;
+            string rangeChoice = "";
+            cin >> rangeChoice;
             if (rangeChoice == "Y" || rangeChoice == "y") {
                 do {
                     //Lets them pick their own dates
@@ -234,24 +234,24 @@ int main() {
             //building AVL tree with csv data
             string tableState = "";
             auto startAVL = timer::now();
-            
+
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
             string blank;
             getline(file, blank);
-            
-           
+
+
             while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
                 for (int i = 1; i <= 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
-                    
+
                 }
                 if (file.eof()) {
                     break;
                 }
-                tableState = tableState.substr(1,tableState.length() - 1); //
-                tableState.at(0) = tolower(tableState.at(0)); 
+                tableState = tableState.substr(1, tableState.length() - 1); //
+                tableState.at(0) = tolower(tableState.at(0));
 
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
@@ -310,8 +310,8 @@ int main() {
                 if (file.eof()) {
                     break;
                 }
-                tableState = tableState.substr(1,tableState.length() - 2);
-                tableState.at(0) = tolower(tableState.at(0)); 
+                tableState = tableState.substr(1, tableState.length() - 2);
+                tableState.at(0) = tolower(tableState.at(0));
 
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
@@ -359,7 +359,7 @@ int main() {
                 startAVL = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //Begin statistical analysis
-                    
+
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                     crimeCount = AVLMap[*iter]->getTreeSize();
 
@@ -387,14 +387,14 @@ int main() {
                         var += pow(crimesPerYear.at(i) - mean, 2);
                     }
 
-                    var=var/float(temp);
+                    var = var / float(temp);
                     sd = sqrt(var);
-                    
+
                     //add to a map<string, vector<int>> to store to output to csv
                     csvOutput[*iter].push_back(crimeCount);
                     csvOutput[*iter].push_back(mean);
                     csvOutput[*iter].push_back(sd);
-                    
+
                 }
                 endAVL = timer::now();
                 elapsedTime = endAVL - startAVL;
@@ -404,7 +404,7 @@ int main() {
                 startRB = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //Begin statistical analysis
-                    
+
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
                     crimeCount = RBMap[*iter]->getTreeSize();
 
@@ -432,9 +432,9 @@ int main() {
                         var += pow(crimesPerYear.at(i) - mean, 2);
                     }
 
-                    var=var/float(temp);
+                    var = var / float(temp);
                     sd = sqrt(var);
-                    
+
                     //add to a map<string, vector<int>> to store to output to csv
                     csvOutput[*iter].push_back(crimeCount);
                     csvOutput[*iter].push_back(mean);
@@ -466,7 +466,8 @@ int main() {
                             //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
                             cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
                             cout << state1 << " compared to " << state2 << "." << endl;
-                        } else {
+                        }
+                        else {
                             //fail to reject H0 (there is insufficient evidence to indicate a difference)
                             cout << "Interpretation: There is NOT a significant difference between the number of hate crimes per year in ";
                             cout << state1 << " compared to " << state2 << "." << endl;
@@ -478,29 +479,39 @@ int main() {
                     }
                 }
 
-                cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
-                cin >> compare;
-
-                if (compare == "Y" || compare == "y") {
-                    ofstream outputFile;
-                    cout << "What would you like to name the file? ";
-                    string fileName;
-                    cin >> fileName;
-
-                    outputFile.open(fileName + ".csv");
-
-                    //Write column names
-                    outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "," << "Standard Deviation\n";
-
-                    //write data to file
-                    for(auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
-                        //loop through the states and their data
-                        outputFile << iter->first << "," << iter->second.at(0) << "," << iter->second.at(1) << "\n";
-                    }
-                    outputFile.close();
-                }
-
                 bool valid;
+                do {
+                    cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
+                    cin >> compare;
+
+                    if (compare == "Y" || compare == "y") {
+                        valid = true;
+                        ofstream outputFile;
+                        cout << "What would you like to name the file? ";
+                        string fileName;
+                        cin >> fileName;
+
+                        outputFile.open(fileName + ".csv");
+
+                        //Write column names
+                        outputFile << "State Name" << "," << "Mean (#Crimes/Year)" << "," << "Standard Deviation\n";
+
+                        //write data to file
+                        for (auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
+                            //loop through the states and their data
+                            outputFile << iter->first << "," << iter->second.at(0) << "," << iter->second.at(1) << "\n";
+                        }
+                        outputFile.close();
+                    }
+                    else if (compare == "N" || compare == "n") {
+                        valid = true;
+                    }
+                    else {
+                        cout << "Error: Invalid choice. Please try again." << endl;
+                        valid = false;
+                    }
+                } while (!valid);
+
                 do {
                     cout << "Would you like to conduct another search?(Y/N)" << endl;
                     cin >> compare;
@@ -509,7 +520,7 @@ int main() {
                         quit = false;
                         valid = true;
                     }
-                    else if(compare == "q" || compare == "q"){
+                    else if (compare == "Q" || compare == "q") {
                         quit = true;
                         valid = true;
                     }
