@@ -162,9 +162,9 @@ int main() {
         bool inputValid = true;
         set<string> searchStates;
 
+        stateInput = " ";
         getline(cin, stateInput);
         string state = "";
-        stateInput = " ";
         while (inputValid && stateInput != "") {
             state = stateInput.substr(0, stateInput.find(','));
             if (stateInput.find(',') == string::npos) {
@@ -201,6 +201,7 @@ int main() {
             }
         }
 
+        bool selectRange = false;
         int startDate;
         int endDate;
         //cout << inputValid << endl
@@ -209,6 +210,7 @@ int main() {
             string rangeChoice = "";
             cin >> rangeChoice;
             if (rangeChoice == "Y" || rangeChoice == "y") {
+                selectRange = true;
                 do {
                     //Lets them pick their own dates
                     cout << "Please enter the beginning year in the format YYYY: " << endl;
@@ -394,7 +396,7 @@ int main() {
                     csvOutput[*iter].push_back(crimeCount);
                     csvOutput[*iter].push_back(mean);
                     csvOutput[*iter].push_back(sd);
-
+                    csvOutput[*iter].push_back(count);
                 }
                 endAVL = timer::now();
                 elapsedTime = endAVL - startAVL;
@@ -439,10 +441,29 @@ int main() {
                     csvOutput[*iter].push_back(crimeCount);
                     csvOutput[*iter].push_back(mean);
                     csvOutput[*iter].push_back(sd);
+                    csvOutput[*iter].push_back(count);
                 }
                 endRB = timer::now();
                 elapsedTime = endRB - startRB;
                 cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
+                
+                //output the stats to the console
+                for (auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
+                    //loop through the states and their data
+                    cout << "Statistics for " << iter->first << ":" << endl;
+                    if (selectRange) {
+                        //if the user specified a time range
+                        cout << "Total number of hate crimes recorded in " << iter->first << " from " << startDate;
+                        cout << " to " << endDate << iter->second.at(0) << endl;
+                    } else {
+                        //the user did not specify
+                        cout << "Total number of hate crimes recorded in " << iter->first;
+                        cout << " (whole dataset): " << iter->second.at(0) << endl;
+                    }
+
+                    cout << "Average number of hate crimes per year: " << iter->second.at(1) << endl;
+                    cout << "Standard deviation of hate crimes per year: " << iter->second.at(2) << endl;
+                }
 
                 cout << "Would you like to compare two specific states? (Y/N)" << endl;
 
