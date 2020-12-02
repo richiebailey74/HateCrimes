@@ -111,7 +111,7 @@ void initializeMaps(string stateArr[], unordered_map<string, AVLtree*>& AVLMap, 
     //this function will initialize the state maps for both AVL and RB trees
 
     //initialize the maps to hold the states as the keys
-    for(unsigned int i = 0; i < stateArr->length(); i++) {
+    for(unsigned int i = 0; i < 50; i++) {
         AVLMap[stateArr[i]] = nullptr;
         RBMap[stateArr[i]] = nullptr;
     }
@@ -337,7 +337,7 @@ int main() {
                 }
 
                 //with this date, add an incident class object (TODO INSERT OTHER NECESSARY DATA HERE FOR INCIDENT CLASS)
-                Incident* incidentObj2 = new Incident(state, date);
+                Incident* incidentObj2 = new Incident(tableState, date);
 
                 //pass into check function (check if date is there, push back. if date is not there, add new node)
                 bool incidentPresent = RBMap[tableState]->searchAddIncident(incidentObj2);
@@ -450,7 +450,7 @@ int main() {
                 //output the stats to the console
                 for (auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
                     //loop through the states and their data
-                    cout << "Statistics for " << iter->first << ":" << endl;
+                    cout << endl << "Statistics for " << iter->first << ":" << endl;
                     if (selectRange) {
                         //if the user specified a time range
                         cout << "Total number of hate crimes recorded in " << iter->first << " from " << startDate;
