@@ -142,7 +142,8 @@ int main() {
     initializeMaps(stateArr, AVLMap, RBMap);
 
     //Program introduction
-    cout << "Welcome to the Hate Crime dataset! This program allows the user to analyze hate crime incidents";
+    cout << "Welcome to the Hate Crime dataset!" << endl << endl;
+    cout << "This program allows the user to analyze hate crime incidents";
     cout << " recorded by the FBI from 1991 to 2018. This program allows users to parse the data by";
     cout << " organizing the data based on the state and the date that the hate crime occured.";
     cout << " Behind the scenes, the dataset can be loaded and traversed through either a Red-Black Tree";
@@ -151,7 +152,6 @@ int main() {
 
     //menu function to print
     bool quit = false;
-    string stateInput = "";
     int index = 0;
 
     while (!quit) {
@@ -162,11 +162,13 @@ int main() {
         bool inputValid = true;
         set<string> searchStates;
 
-        stateInput = " ";
+        string stateInput = "";
+        
         getline(cin, stateInput);
         string state = "";
         while (inputValid && stateInput != "") {
             state = stateInput.substr(0, stateInput.find(','));
+            cout << state << endl;
             if (stateInput.find(',') == string::npos) {
                 stateInput = "";
             }
@@ -177,11 +179,13 @@ int main() {
             if (checkState(stateArr, state)) {
                 searchStates.insert(state);
 
+                state.at(0) = tolower(state.at(0));
+
                 AVLtree* temp1 = new AVLtree();
-                AVLMap.emplace(state, temp1);
+                AVLMap[state] = temp1;
 
                 RBtree* temp2 = new RBtree();
-                RBMap.emplace(state, temp2);
+                RBMap[state] = temp2;
             }
             else {
                 inputValid = false;
@@ -304,7 +308,7 @@ int main() {
 
             while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
-                string state;
+                //string state;
                 for (int i = 1; i <= 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
@@ -312,7 +316,8 @@ int main() {
                 if (file.eof()) {
                     break;
                 }
-                tableState = tableState.substr(1, tableState.length() - 2);
+                
+                tableState = tableState.substr(1, tableState.length() - 1);
                 tableState.at(0) = tolower(tableState.at(0));
 
                 if (searchStates.find(tableState) == searchStates.end()) {
@@ -361,9 +366,10 @@ int main() {
                 startAVL = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //Begin statistical analysis
-
+                    string sName = *iter;
+                    sName.at(0) = tolower(sName.at(0));
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
-                    crimeCount = AVLMap[*iter]->getTreeSize();
+                    crimeCount = AVLMap[sName]->getTreeSize();
 
                     //calculate mean hate crimes of each state per year (average #crimes/year)
                     int startYear = startDate / 10000;
@@ -373,7 +379,7 @@ int main() {
                     vector<int> crimesPerYear;
 
                     while (startYear <= endYear) {
-                        int num = AVLMap[*iter]->searchYearIncidentNumber(startYear);
+                        int num = AVLMap[sName]->searchYearIncidentNumber(startYear);
                         crimesPerYear.push_back(num);
                         sum += num;
                         count++;
@@ -406,9 +412,10 @@ int main() {
                 startRB = timer::now();
                 for (auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //Begin statistical analysis
-
+                    string sName = *iter;
+                    sName.at(0) = tolower(sName.at(0));
                     //calculate total number of hate crimes of each state (aka how many Incident objects are in its tree)
-                    crimeCount = RBMap[*iter]->getTreeSize();
+                    crimeCount = RBMap[sName]->getTreeSize();
 
                     //calculate mean hate crimes of each state per year (average #crimes/year)
                     int startYear = startDate / 10000;
@@ -418,7 +425,7 @@ int main() {
                     vector<int> crimesPerYear;
 
                     while (startYear <= endYear) {
-                        int num = RBMap[*iter]->searchYearIncidentNumber(startYear);
+                        int num = RBMap[sName]->searchYearIncidentNumber(startYear);
                         crimesPerYear.push_back(num);
                         sum += num;
                         count++;
@@ -540,10 +547,12 @@ int main() {
                     if (compare == "Y" || compare == "y") {
                         quit = false;
                         valid = true;
+                        cin.ignore();
                     }
-                    else if (compare == "Q" || compare == "q") {
+                    else if (compare == "N" || compare == "n") {
                         quit = true;
                         valid = true;
+                        cin.ignore();
                     }
                     else {
                         cout << "Error: Invalid selection. Please try again." << endl;
