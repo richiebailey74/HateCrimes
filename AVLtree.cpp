@@ -4,6 +4,7 @@
 
 AVLtree::AVLtree() {
 	root = NULL;
+	treeSize = 0;
 }
 
 void AVLtree::inOrderRecursive(treeNode* currentnode) {
