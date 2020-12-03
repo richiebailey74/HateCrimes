@@ -2,6 +2,7 @@
 
 RBtree::RBtree() {
 	root = NULL;
+	treeSize = 0;
 }
 
 bool RBtree::compareTreenodes(treenode* N1, treenode* N2) {
@@ -95,12 +96,6 @@ treenode* RBtree::treeInsert(treenode* root, treenode* currentnode) {
 		return currentnode;
 	}
 
-	if (currentnode->date == root->date) { //i can probably delete this first if statement (functionality eliminated in main of driver)
-		root->incidentsContainer.push_back(0);
-		treenode* toReturn = currentnode->parent;//place holder for adding an incident to the vector
-		delete currentnode;
-		return toReturn;
-	}
 	if (currentnode->date < root->date) {
 		root->left = treeInsert(root->left, currentnode);
 		root->left->parent = root; //implementing parent is good for fixImbalance()
