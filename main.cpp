@@ -168,7 +168,6 @@ int main() {
         string state = "";
         while (inputValid && stateInput != "") {
             state = stateInput.substr(0, stateInput.find(','));
-            cout << state << endl;
             if (stateInput.find(',') == string::npos) {
                 stateInput = "";
             }
