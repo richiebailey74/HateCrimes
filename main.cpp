@@ -50,7 +50,7 @@ int reformatDate(string str) {
     } else if (month == "dec") {
         month = "12";
     } else {
-        cout << "WARNING: Not a valid month." << endl;
+        cout << "WARNING: " << month << " is not a valid month." << endl;
     }
 
     string year_temp = str.substr(7);
@@ -176,9 +176,9 @@ int main() {
             }
 
             if (checkState(stateArr, state)) {
-                searchStates.insert(state);
 
                 state.at(0) = tolower(state.at(0));
+                searchStates.insert(state);
 
                 AVLtree* temp1 = new AVLtree();
                 AVLMap[state] = temp1;
@@ -244,10 +244,10 @@ int main() {
             string blank;
             getline(file, blank);
 
-
+            int i = 1;
             while (!file.eof()) {
                 //this loop will visit each row of the csv file until the file has ended
-                for (int i = 1; i <= 8; i++) {
+                for (int i = 0; i < 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
                     getline(file, tableState, ',');
 
@@ -255,8 +255,9 @@ int main() {
                 if (file.eof()) {
                     break;
                 }
-                tableState = tableState.substr(1, tableState.length() - 1); //
+                tableState = tableState.substr(1, tableState.length() - 2); //
                 tableState.at(0) = tolower(tableState.at(0));
+                cout << ++i << tableState << endl;
 
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
@@ -264,8 +265,12 @@ int main() {
                     continue;
                 }
 
+                //The issue is somewhere in here
+                    //Possibly indexing of for loops relative to data set structure
+                    //Possible not finishing reading the previous line causing an off index
                 string date_str;
-                for (int i = 1; i <= 7; i++) {
+
+                for (int i = 0; i < 7; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the date column
                     getline(file, date_str, ',');
                 }
@@ -289,6 +294,8 @@ int main() {
                 if (incidentPresent == false) {
                     AVLMap[tableState]->insertNode(incidentObj1->date, incidentObj1);
                 }
+                getline(file, blank);
+                
             }
             auto endAVL = timer::now();
             chrono::duration<double> elapsedTime = endAVL - startAVL;
@@ -547,17 +554,24 @@ int main() {
                         quit = false;
                         valid = true;
                         cin.ignore();
-                    }
+                        file.clear();
+                        file.seekg(0, ios::beg);
+                     }
                     else if (compare == "N" || compare == "n") {
                         quit = true;
                         valid = true;
-                        cin.ignore();
+                        file.close();
                     }
                     else {
                         cout << "Error: Invalid selection. Please try again." << endl;
                         valid = false;
                     }
                 } while (!valid);
+
+                searchStates.clear();
+                for (auto i = AVLMap.begin(); i != AVLMap.end(); i++) {
+                    //clean up for either next round or end of program
+                }
             }
         }
     }
