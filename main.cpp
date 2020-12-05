@@ -252,7 +252,9 @@ int main() {
                 //this loop will visit each row of the csv file until the file has ended
                 for (int i = 0; i < 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
-                    getline(file, tableState, ',');
+                    if (!getline(file, tableState, ',')) {
+                        break;
+                    }
                     if (i == 3) {
                         //if it is in the column with a lot of commas
                         while (tableState.at(tableState.length() - 1) != '\"' ) {
@@ -328,7 +330,9 @@ int main() {
                 //this loop will visit each row of the csv file until the file has ended
                 for (int i = 1; i < 8; i++) {
                     //this loop will loop through the unnecessary data columns until it reaches the state name column
-                    getline(file, tableState, ',');
+                    if (!getline(file, tableState, ',')) {
+                        break;
+                    }
                     if (i == 3) {
                         //if it is in the column with a lot of commas
                         while (tableState.at(tableState.length() - 1) != '\"' ) {
