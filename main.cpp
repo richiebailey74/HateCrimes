@@ -508,42 +508,56 @@ int main() {
                     cout << "Standard deviation of hate crimes per year: " << iter->second.at(2) << endl;
                 }
 
-                cout << "Would you like to compare two specific states? (Y/N)" << endl;
+                if (searchStates.size() > 1) {
+                    cout << "Would you like to compare two specific states? (Y/N)" << endl;
 
-                string compare = "";
-                cin >> compare;
+                    string compare = "";
+                    cin >> compare;
 
-                if (compare == "Y" || compare == "y") {
-                    string state1;
-                    string state2;
-                    cout << "Enter State 1: ";
-                    cin >> state1;
-                    cout << "Enter State 2: ";
-                    cin >> state2;
-                    cout << endl;
+                    if (compare == "Y" || compare == "y") {
+                        string state1;
+                        string state2;
+                        cout << "Enter State 1: ";
+                        cin >> state1;
+                        cout << "Enter State 2: ";
+                        cin >> state2;
+                        cout << endl;
+                        
+                        for(int k = 0; k < state1.size(); k++) {
+                            //put all letters to lower case
+                            state1.at(k) = tolower(state1.at(k));
+                        }
 
-                    if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
-                        //compare these two specific states
-                        float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state1].at(3));
-                        cout << "A t-test between " << state1 << " and " << state2 << " results in the p-value " << result << endl;
-                        if (result < 0.05) {
-                            //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
-                            cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
-                            cout << state1 << " compared to " << state2 << "." << endl;
+                        for(int k = 0; k < state2.size(); k++) {
+                            //put all letters to lower case
+                            state2.at(k) = tolower(state2.at(k));
+                        }
+
+                        if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
+                            //compare these two specific states
+                            float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state1].at(3));
+                            cout << "A t-test between " << state1 << " and " << state2 << " results in the p-value " << result << endl;
+                            if (result < 0.05) {
+                                //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
+                                cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
+                                cout << state1 << " compared to " << state2 << "." << endl;
+                            }
+                            else {
+                                //fail to reject H0 (there is insufficient evidence to indicate a difference)
+                                cout << "Interpretation: There is NOT a significant difference between the number of hate crimes per year in ";
+                                cout << state1 << " compared to " << state2 << "." << endl;
+                            }
+
                         }
                         else {
-                            //fail to reject H0 (there is insufficient evidence to indicate a difference)
-                            cout << "Interpretation: There is NOT a significant difference between the number of hate crimes per year in ";
-                            cout << state1 << " compared to " << state2 << "." << endl;
+                            cout << "Error: The two selected states were not a part of the current analysis." << endl;
                         }
-
-                    }
-                    else {
-                        cout << "Error: The two selected states were not a part of the current analysis." << endl;
                     }
                 }
+                
 
                 bool valid;
+                string compare;
                 do {
                     cout << "Would you like to write the statistical data to a file? (Y/N)" << endl;
                     cin >> compare;
