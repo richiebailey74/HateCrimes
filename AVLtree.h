@@ -26,6 +26,7 @@ private:
 	void traversalIncidentDate(treeNode* currentnode, Incident* incidentToAdd, bool& searchSuccess); //might need to add a date
 	//add away functions to abstract away functionality later
 	void searchYearIncidentDateRecursive(treeNode* currentnode, int& incidentSum, int year);
+	void deleteTreeRecursive(treeNode* &currNode);
 
 
 public:
@@ -37,6 +38,5 @@ public:
 	int getTreeSize();
 	int searchYearIncidentNumber(int year);
 	void deleteTree();
-    	void deleteTreeRecursive(treeNode* &currNode);
 };
 
