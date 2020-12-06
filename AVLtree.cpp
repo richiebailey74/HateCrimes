@@ -3,7 +3,7 @@
 
 
 AVLtree::AVLtree() {
-	root = NULL;
+	root = nullptr;
 	treeSize = 0;
 }
 
