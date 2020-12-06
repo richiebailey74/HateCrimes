@@ -1,7 +1,7 @@
 #include "RBtree.h"
 
 RBtree::RBtree() {
-	root = NULL;
+	root = nullptr;
 	treeSize = 0;
 }
 
