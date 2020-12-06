@@ -275,3 +275,20 @@ void RBtree::levelOrder() {
 int RBtree::getTreeSize() {
 	return treeSize;
 }
+
+void RBtree::deleteTree()
+{
+    if(root != nullptr) {
+        deleteTreeRecursive(root);
+    }
+    root = nullptr;
+}
+
+void RBtree::deleteTreeRecursive(treenode* &currNode) {
+    if(currNode != nullptr) {
+        deleteTreeRecursive(currNode->left);
+        deleteTreeRecursive(currNode->right);
+        delete currNode;
+    }
+    currNode = nullptr;
+}
