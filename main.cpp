@@ -533,11 +533,12 @@ int main() {
                             state2.at(k) = tolower(state2.at(k));
                         }
 
-                        if (searchStates.find(state1) != searchStates.end() && searchStates.find(state1) != searchStates.end()) {
+                        if (searchStates.find(state1) != searchStates.end() && searchStates.find(state2) != searchStates.end()) {
                             //compare these two specific states
-                            float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state1].at(3));
+                            float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state2].at(3));
+
                             cout << "A t-test between " << state1 << " and " << state2 << " results in the p-value " << result << endl;
-                            if (result < 0.05) {
+                            if (result < -1.70 || result > 1.70) {
                                 //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
                                 cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
                                 cout << state1 << " compared to " << state2 << "." << endl;
@@ -614,8 +615,10 @@ int main() {
 
                 searchStates.clear();
                 for(auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
-                    //reset AVL and RB maps
+                    //reset AVL and RB maps and trees
+                    AVLMap[*iter]->deleteTree();
                     AVLMap[*iter] = nullptr;
+                    RBMap[*iter]->deleteTree();
                     RBMap[*iter] = nullptr;
                 }
             }
