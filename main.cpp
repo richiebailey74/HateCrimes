@@ -613,8 +613,10 @@ int main() {
                 } while (!valid);
 
                 searchStates.clear();
-                for (auto i = AVLMap.begin(); i != AVLMap.end(); i++) {
-                    //clean up for either next round or end of program
+                for(auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
+                    //reset AVL and RB maps
+                    AVLMap[*iter] = nullptr;
+                    RBMap[*iter] = nullptr;
                 }
             }
         }
