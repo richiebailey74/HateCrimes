@@ -288,6 +288,7 @@ void RBtree::deleteTreeRecursive(treenode* &currNode) {
     if(currNode != nullptr) {
         deleteTreeRecursive(currNode->left);
         deleteTreeRecursive(currNode->right);
+	currNode->incidentsContainer.clear();
         delete currNode;
     }
     currNode = nullptr;
