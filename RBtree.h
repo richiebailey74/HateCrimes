@@ -27,6 +27,7 @@ private:
 	bool compareTreenodes(treenode* N1, treenode* N2);
 	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
 	void searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum, int year);
+	void deleteTreeRecursive(treenode* &currNode);
 
 public:
 	RBtree();
@@ -37,6 +38,5 @@ public:
 	int getTreeSize();
 	int searchYearIncidentNumber(int year);
 	void deleteTree();
-    	void deleteTreeRecursive(treenode* &currNode);
 };
 
