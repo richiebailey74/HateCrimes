@@ -69,16 +69,18 @@ int reformatDate(string str) {
 
 }
 
-bool validDate(int startDate, int endDate) {
+bool validDate(int& startDate, int& endDate) {
     if (startDate > endDate) {
         cout << "Invalid date range." << endl;
         return false;
     }
-    if (startDate < 1991 || startDate > 2018) {
-        cout << "Your start date is out of range. The program will default to use the start date of the dataset" << endl;
+    if (startDate < 19910101 || startDate > 20181231) {
+        cout << "Your start date is out of range. The program will default to use the start date of the dataset." << endl;
+        startDate = 19910101;
     }
-    if (endDate < 1991 || endDate > 2018) {
-        cout << "Your end date is out of range. The program will default to use the start date of the dataset" << endl;
+    if (endDate < 19910101 || endDate > 20181231) {
+        cout << "Your end date is out of range. The program will default to use the end date of the dataset." << endl;
+        endDate = 20181231;
     }
     return true;
 
@@ -142,13 +144,16 @@ int main() {
     initializeMaps(stateArr, AVLMap, RBMap);
 
     //Program introduction
-    cout << "Welcome to the Hate Crime dataset!" << endl << endl;
-    cout << "This program allows the user to analyze hate crime incidents";
-    cout << " recorded by the FBI from 1991 to 2018. This program allows users to parse the data by";
-    cout << " organizing the data based on the state and the date that the hate crime occured.";
-    cout << " Behind the scenes, the dataset can be loaded and traversed through either a Red-Black Tree";
-    cout << " data structure or an AVL tree data structure, based on the user's discretion.";
-    cout << " Thank you and happy parsing!" << endl;
+    cout << "Welcome to the Hate Crime dataset!\n" << endl;
+    
+    cout << "This program allows the user to analyze hate crime incidents\n"  
+         << "recorded by the FBI from 1991 to 2018. This program allows\n"
+         << "users to parse the data by organizing the data based on the\n"
+         << "state and the date that the hate crime occured. Behind the\n"
+         << "scenes, the dataset can be loaded and traversed using either\n"
+         << "a Red-Black Tree data structure or an AVL tree data structure.\n" << endl;
+    
+    cout << "Thank you and happy parsing!\n" << endl;
 
     //menu function to print
     bool quit = false;
@@ -157,8 +162,11 @@ int main() {
     while (!quit) {
         //menu function call
         //take in comma separated state list
-        cout << "Please input the names of the states you would like to conduct your search with.";
-        cout << "You may input one or multiple states. The format should be as follows: Florida, Georgia" << endl;
+        cout << "Please input the names of the states you would like to\n"
+             << "conduct your search with. You may input one or multiple\n"
+             << "states. The format should be as follows: Florida, Georgia\n" << endl;
+
+        cout << "States: ";
         bool inputValid = true;
         set<string> searchStates;
 
@@ -206,6 +214,7 @@ int main() {
                 inputValid = false;
             }
         }
+        cout << endl;
 
         bool selectRange = false;
         int startDate;
@@ -219,12 +228,12 @@ int main() {
                 selectRange = true;
                 do {
                     //Lets them pick their own dates
-                    cout << "Please enter the beginning year in the format YYYY: " << endl;
+                    cout << "Please enter the beginning year (YYYY): ";
                     string start;
                     cin >> start;
                     start += "0101";
                     startDate = stoi(start);
-                    cout << "Please enter the ending year in the format YYYY: " << endl;
+                    cout << "Please enter the ending year (YYYY): ";
                     string end;
                     cin >> end;
                     end += "1231";
@@ -237,12 +246,14 @@ int main() {
             }
         }
 
+        cout << endl;
+    
         if (inputValid) {
-
+            cout << "Beginning to build the AVL tree..." << endl;
             //building AVL tree with csv data
             string tableState = "";
             auto startAVL = timer::now();
-
+            int loadingIndex = 0;
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
             string blank;
             getline(file, blank);
@@ -265,13 +276,16 @@ int main() {
                 if (file.eof()) {
                     break;
                 }
-                tableState = tableState.substr(1, tableState.length() - 2); //
+                tableState = tableState.substr(1, tableState.length() - 2); 
                 for(int i = 0; i < tableState.length(); i++) {
                     //convert state to lower case
                     tableState.at(i) = tolower(tableState.at(i));
                 }
-                //cout << ++i << tableState << endl;
-
+                
+                if (loadingIndex++ == 25000) {
+                    cout << "..." << endl;
+                    loadingIndex = 0;
+                }
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
                     getline(file, blank);
@@ -312,8 +326,9 @@ int main() {
                 getline(file, blank);
             }
             auto endAVL = timer::now();
+            cout << "Finished building the AVL tree." << endl;
             chrono::duration<double> elapsedTime = endAVL - startAVL;
-            cout << setprecision(5) << "Time taken to build AVL tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
+            cout << setprecision(5) << "Time taken to build the AVL tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl << endl;
 
             //building RB tree with csv data
 
@@ -321,6 +336,8 @@ int main() {
             file.clear();
             file.seekg(0, ios::beg);
             tableState = "";
+            loadingIndex = 0;
+            cout << "Beginning to build the Red-Black tree..." << endl;
             auto startRB = timer::now();
 
             //the first 28 lines of input are the column headers which we have no use for so just skip over them
@@ -349,7 +366,10 @@ int main() {
                     //convert state to lower case
                     tableState.at(i) = tolower(tableState.at(i));
                 }
-
+                if (loadingIndex++ == 25000) {
+                    cout << "..." << endl;
+                    loadingIndex = 0;
+                }
                 if (searchStates.find(tableState) == searchStates.end()) {
                     //if the current state was not found in the searchStates vector, move onto next row
                     getline(file, blank);
@@ -389,8 +409,9 @@ int main() {
                 }
             }
             auto endRB = timer::now();
+            cout << "Finished building Red-Black tree." << endl;
             elapsedTime = endRB - startRB;
-            cout << setprecision(5) << "Time taken to build RB tree " << elapsedTime.count() << " seconds" << endl;
+            cout << setprecision(5) << "Time taken to build the RB tree " << elapsedTime.count() << " seconds" << endl << endl;
 
             int crimeCount;
             float mean = 0.0;
@@ -490,23 +511,45 @@ int main() {
                 elapsedTime = endRB - startRB;
                 cout << setprecision(5) << "Time taken to run statistical analysis on RB tree " << setprecision(5) << elapsedTime.count() << " seconds" << endl;
                 
+                //Date formatting for writing output
+                string searchBegin;
+                string day, month, year = "";
+                day = to_string(startDate % 100);
+                startDate /= 100;
+                month = to_string(startDate % 100);
+                startDate /= 100;
+                year = to_string(startDate);
+                searchBegin = month + "/" + day + "/" + year;
+
+                string searchEnd;
+                day = to_string(endDate % 100);
+                endDate /= 100;
+                month = to_string(endDate % 100);
+                endDate /= 100;
+                year = to_string(endDate);
+                searchEnd = month + "/" + day + "/" + year;
+
                 //output the stats to the console
                 for (auto iter = csvOutput.begin(); iter != csvOutput.end(); iter++) {
                     //loop through the states and their data
-                    cout << endl << "Statistics for " << iter->first << ":" << endl;
+                    string stateName = iter->first;
+                    stateName.at(0) = toupper(stateName.at(0));
+                    cout << endl << "Statistics for " << stateName << ":" << endl;
                     if (selectRange) {
                         //if the user specified a time range
-                        cout << "Total number of hate crimes recorded in " << iter->first << " from " << startDate;
-                        cout << " to " << endDate << iter->second.at(0) << endl;
+                        cout << "Total number of hate crimes recorded from " << searchBegin << " to " << searchEnd
+                             << ": " << iter->second.at(0) << endl;
                     } else {
                         //the user did not specify
-                        cout << "Total number of hate crimes recorded in " << iter->first;
-                        cout << " (whole dataset): " << iter->second.at(0) << endl;
+                        cout << "Total number of hate crimes recorded ";
+                        cout << "(whole dataset): " << iter->second.at(0) << endl;
                     }
 
                     cout << "Average number of hate crimes per year: " << iter->second.at(1) << endl;
                     cout << "Standard deviation of hate crimes per year: " << iter->second.at(2) << endl;
                 }
+
+                cout << endl;
 
                 if (searchStates.size() > 1) {
                     cout << "Would you like to compare two specific states? (Y/N)" << endl;
@@ -517,10 +560,11 @@ int main() {
                     if (compare == "Y" || compare == "y") {
                         string state1;
                         string state2;
+                        cin.ignore();
                         cout << "Enter State 1: ";
-                        cin >> state1;
+                        getline(cin, state1);
                         cout << "Enter State 2: ";
-                        cin >> state2;
+                        getline(cin, state2);
                         cout << endl;
                         
                         for(int k = 0; k < state1.size(); k++) {
@@ -536,17 +580,18 @@ int main() {
                         if (searchStates.find(state1) != searchStates.end() && searchStates.find(state2) != searchStates.end()) {
                             //compare these two specific states
                             float result = tTest(csvOutput[state1].at(1), csvOutput[state1].at(2), csvOutput[state1].at(3), csvOutput[state2].at(1), csvOutput[state2].at(2), csvOutput[state2].at(3));
-
+                            state1.at(0) = toupper(state1.at(0));
+                            state2.at(0) = toupper(state2.at(0));
                             cout << "A t-test between " << state1 << " and " << state2 << " results in the p-value " << result << endl;
                             if (result < -1.70 || result > 1.70) {
                                 //reject H0 (there is sufficient evidence to indicate a significant difference between the data sets)
-                                cout << "Interpretation: There is a significant difference between the number of hate crimes per year in ";
-                                cout << state1 << " compared to " << state2 << "." << endl;
+                                cout << "Interpretation: There is a significant difference between the\n"
+                                     << "number of hate crimes per year in " << state1 << " compared to " << state2 << "." << endl;
                             }
                             else {
                                 //fail to reject H0 (there is insufficient evidence to indicate a difference)
-                                cout << "Interpretation: There is NOT a significant difference between the number of hate crimes per year in ";
-                                cout << state1 << " compared to " << state2 << "." << endl;
+                                cout << "Interpretation: There is NOT a significant difference between\n"
+                                     << "the number of hate crimes per year in " << state1 << " compared to " << state2 << "." << endl;
                             }
 
                         }
@@ -592,7 +637,7 @@ int main() {
                 } while (!valid);
 
                 do {
-                    cout << "Would you like to conduct another search?(Y/N)" << endl;
+                    cout << "Would you like to conduct another search? (Y/N)" << endl;
                     cin >> compare;
 
                     if (compare == "Y" || compare == "y") {
@@ -624,5 +669,7 @@ int main() {
             }
         }
     }
+
+    cout << endl << "Thank you for parsing." << endl;
     return 0;
 }
