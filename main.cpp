@@ -541,13 +541,10 @@ int main() {
                              << ": " << iter->second.at(0) << endl;
                     } else {
                         //the user did not specify
-<<<<<<< HEAD
+
                         cout << "Total number of hate crimes recorded ";
                         cout << "(whole dataset): " << iter->second.at(0) << endl;
-=======
-                        cout << "Total number of hate crimes recorded in " << iter->first;
-                        cout << iter->second.at(0) << endl;
->>>>>>> 1e7697e05c60ef881fc3cd62263a350d40435dbe
+
                     }
 
                     cout << "Average number of hate crimes per year: " << iter->second.at(1) << endl;
