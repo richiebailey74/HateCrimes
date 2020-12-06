@@ -36,6 +36,7 @@ public:
 	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
 	int getTreeSize();
 	int searchYearIncidentNumber(int year);
-
+	void deleteTree();
+    	void deleteTreeRecursive(treenode* &currNode);
 };
 
