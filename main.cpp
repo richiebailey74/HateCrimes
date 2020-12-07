@@ -665,7 +665,7 @@ int main() {
                     //reset AVL and RB maps and trees
                     AVLMap[*iter]->~AVLtree();
                     AVLMap[*iter] = nullptr;
-                    RBMap[*iter]->~RBtree());
+                    RBMap[*iter]->~RBtree();
                     RBMap[*iter] = nullptr;
                 }
             }
