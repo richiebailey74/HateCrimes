@@ -17,6 +17,7 @@ public:
 	treenode* parent; //doubly linked to make way easier implementation
 
 	treenode(int input);
+	~treeNode();
 	void operator = (const treenode& node);
 
 };
