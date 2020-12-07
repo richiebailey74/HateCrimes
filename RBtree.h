@@ -28,15 +28,16 @@ private:
 	void traversalIncidentDate(treenode* currentnode, Incident* incidentToAdd, bool& searchSuccess);
 	void searchYearIncidentDateRecursive(treenode* currentnode, int& incidentSum, int year);
 	void deleteTreeRecursive(treenode* &currNode);
+	void deleteTree();
 
 public:
 	RBtree();
+	~RBtree();
 	void insertNode(int val, Incident* incident);
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd); //will change to incident instead but has similar functionality
 	int getTreeSize();
 	int searchYearIncidentNumber(int year);
-	void deleteTree();
 };
 
