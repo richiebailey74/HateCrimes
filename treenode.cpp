@@ -21,6 +21,17 @@ void treenode::operator = (const treenode& node) {
 	}
 }
 
+treenode::~treenode() {
+    //destructor
+    while (!incidentsContainer.empty()) {
+        //delete the incidents
+        delete incidentsContainer.at(0);
+    }
+    delete left;
+    delete right;
+    delete parent;
+}
+
 
 
 //avl
@@ -39,4 +50,14 @@ void treeNode::operator = (const treeNode& node) {
 	for (unsigned int i = 0; i < node.incidentsContainer.size(); i++) {
 		incidentsContainer.push_back(node.incidentsContainer[i]);
 	}
+}
+
+treeNode::~treeNode() {
+    //destructor
+    while (!incidentsContainer.empty()) {
+        //delete the incidents
+        delete incidentsContainer.at(0);
+    }
+    delete left;
+    delete right;
 }
