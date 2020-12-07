@@ -294,4 +294,7 @@ void RBtree::deleteTree()
     root = nullptr;
 }
 
-
+RBtree::~RBtree() {
+    //destructor
+    deleteTree();
+}
