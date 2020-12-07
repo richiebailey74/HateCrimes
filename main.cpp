@@ -663,9 +663,9 @@ int main() {
                 searchStates.clear();
                 for(auto iter = searchStates.begin(); iter != searchStates.end(); iter++) {
                     //reset AVL and RB maps and trees
-                    AVLMap[*iter]->deleteTree();
+                    AVLMap[*iter]->~AVLtree();
                     AVLMap[*iter] = nullptr;
-                    RBMap[*iter]->deleteTree();
+                    RBMap[*iter]->~RBtree());
                     RBMap[*iter] = nullptr;
                 }
             }
