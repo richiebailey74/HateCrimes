@@ -184,13 +184,6 @@ int AVLtree::getTreeSize() {
 	return treeSize;
 }
 
-void AVLtree::deleteTree(){
-    if(root != nullptr) {
-        deleteTreeRecursive(root);
-    }
-    root = nullptr;
-}
-
 void AVLtree::deleteTreeRecursive(treeNode* &currNode) {
     if(currNode != nullptr) {
         deleteTreeRecursive(currNode->left);
@@ -200,3 +193,12 @@ void AVLtree::deleteTreeRecursive(treeNode* &currNode) {
     }
     currNode = nullptr;
 }
+
+void AVLtree::deleteTree(){
+    if(root != nullptr) {
+        deleteTreeRecursive(root);
+    }
+    root = nullptr;
+}
+
+
