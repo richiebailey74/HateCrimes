@@ -201,4 +201,7 @@ void AVLtree::deleteTree(){
     root = nullptr;
 }
 
-
+AVLtree::~AVLtree() {
+    //destructor
+    deleteTree();
+}
