@@ -276,14 +276,6 @@ int RBtree::getTreeSize() {
 	return treeSize;
 }
 
-void RBtree::deleteTree()
-{
-    if(root != nullptr) {
-        deleteTreeRecursive(root);
-    }
-    root = nullptr;
-}
-
 void RBtree::deleteTreeRecursive(treenode* &currNode) {
     if(currNode != nullptr) {
         deleteTreeRecursive(currNode->left);
@@ -293,3 +285,13 @@ void RBtree::deleteTreeRecursive(treenode* &currNode) {
     }
     currNode = nullptr;
 }
+
+void RBtree::deleteTree()
+{
+    if(root != nullptr) {
+        deleteTreeRecursive(root);
+    }
+    root = nullptr;
+}
+
+
