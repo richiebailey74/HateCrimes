@@ -27,16 +27,17 @@ private:
 	//add away functions to abstract away functionality later
 	void searchYearIncidentDateRecursive(treeNode* currentnode, int& incidentSum, int year);
 	void deleteTreeRecursive(treeNode* &currNode);
+	void deleteTree();
 
 
 public:
 	AVLtree();
+	~AVLtree();
 	void insertNode(int val, Incident* incident);
 	void inOrder();
 	void levelOrder();
 	bool searchAddIncident(Incident* incidentToAdd);
 	int getTreeSize();
 	int searchYearIncidentNumber(int year);
-	void deleteTree();
 };
 
