@@ -8,14 +8,16 @@ using namespace std;
 
 class RBtree {
 private:
+	//private member variables
 	treenode* root;
 	int treeSize;
 
+	//imbalance functions
 	void leftRotation(treenode*& root, treenode*& currentnode);
 	void rightRotation(treenode*& root, treenode*& currentnode);
 	void imbalanceFix(treenode*& root, treenode*& currentnode);
 
-	//helper functions
+	//helper functions - don't need public access
 	treenode* treeInsert(treenode* root, treenode* currentnode);
 	void inOrderRecursive(treenode* currentnode);
 	void levelOrderRecursive(treenode* currentnode);
