@@ -173,6 +173,7 @@ bool RBtree::isRed(treenode* node) {
 	}
 }
 
+//some inspiration was drawn from https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/ for this function
 //for when there is a double red imbalance and the uncle node is black (rotation won't cause another double red imbalance)
 void RBtree::leftRotation(treenode*& root, treenode*& currentnode) {
 
@@ -205,6 +206,7 @@ void RBtree::leftRotation(treenode*& root, treenode*& currentnode) {
 
 }
 
+//some inspiration was drawn from https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/ for this function
 //same as above but flipped for the right rotation from a left left effective imbalance from double red imblance
 void RBtree::rightRotation(treenode*& root, treenode*& currentnode) {
 
@@ -231,6 +233,7 @@ void RBtree::rightRotation(treenode*& root, treenode*& currentnode) {
 
 }
 
+//some inspiration was drawn from https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/ for this function
 //this function is for when there is a double red imbalance and the uncle node is red, meaning a rotation would cause another double red imbalance
 void RBtree::imbalanceFix(treenode*& root, treenode*& currentnode) {
 
