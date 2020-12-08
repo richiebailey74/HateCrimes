@@ -158,6 +158,7 @@ treeNode* AVLtree::rightLeftRotation(treeNode*& currentnode) {
 	return leftRotation(currentnode);
 }
 
+//some inspiration was drawn from https://www.geeksforgeeks.org/avl-tree-set-1-insertion/ for this function
 //inserts the node into the tree and balances all in one function
 treeNode* AVLtree::treeInsert(treeNode* currentnode, treeNode* insertnode) {
 	//add the node with BST functinoality
